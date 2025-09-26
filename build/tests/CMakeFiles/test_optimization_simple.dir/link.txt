@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/test_optimization_simple.dir/link.d CMakeFiles/test_optimization_simple.dir/test_optimization_simple.cpp.o -o test_optimization_simple  /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libgtest.a

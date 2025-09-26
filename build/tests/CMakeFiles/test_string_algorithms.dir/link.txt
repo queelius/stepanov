@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/test_string_algorithms.dir/link.d CMakeFiles/test_string_algorithms.dir/test_string_algorithms.cpp.o -o test_string_algorithms  /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libgtest.a

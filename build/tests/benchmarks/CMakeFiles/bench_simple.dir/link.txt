@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/bench_simple.dir/link.d CMakeFiles/bench_simple.dir/bench_simple.cpp.o -o bench_simple  -lgeneric_math

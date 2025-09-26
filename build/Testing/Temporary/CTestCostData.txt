@@ -1,0 +1,120 @@
+test_all_components 3 0.265676
+test_math 0 0
+test_math_tools 0 0
+test_advanced 0 0
+test_advanced_features 0 0
+test_allocators 0 0
+test_benchmark 0 0
+test_bitmap 0 0
+test_boolean 0 0
+test_compression 0 0
+test_compression_advanced 0 0
+test_compression_simple 0 0
+test_generic_math 0 0
+test_geometry 0 0
+test_innovations 0 0
+test_innovative 0 0
+test_integration 0 0
+test_integrations 0 0
+test_iterators_ranges 0 0
+test_iterators_ranges_simple 0 0
+test_matrix 0 0
+test_new_algorithms 0 0
+test_numeric_types 0 0
+test_optimization_simple 0 0
+test_random_enhanced 0 0
+test_showcase 0 0
+test_simple_demo 0 0
+test_simple_math 0 0
+test_single_allocator 0 0
+test_slab 0 0
+test_string_algorithms 0 0
+test_synchronization 0 0
+test_concepts 2 0.000856878
+test_builtin_adaptors 2 0.000927422
+test_gcd 0 0
+test_mod 0 0
+test_expmod 0 0
+test_primality 0 0
+test_polynomial 0 0
+test_bounded_nat 0 0
+test_interval 0 0
+test_continued_fraction 0 0
+test_fenwick_tree 0 0
+test_sparse_matrix 0 0
+test_fft 0 0
+test_padic 0 0
+test_cache_oblivious 0 0
+test_groups 0 0
+test_graph 0 0
+test_type_erasure 0 0
+test_algebraic_structures 0 0
+test_numerical_algorithms 0 0
+test_polynomial_systems 0 0
+test_template_instantiation 0 0
+opt_test_all 0 0
+opt_test_golden_section 0 0
+opt_test_gradient_descent 0 0
+opt_test_integration 0 0
+opt_test_newton 0 0
+opt_test_root_finding 0 0
+opt_test_simulated_annealing 0 0
+---
+test_advanced
+test_advanced_features
+test_allocators
+test_benchmark
+test_bitmap
+test_boolean
+test_compression
+test_compression_advanced
+test_compression_simple
+test_generic_math
+test_geometry
+test_innovations
+test_innovative
+test_integration
+test_integrations
+test_iterators_ranges
+test_iterators_ranges_simple
+test_matrix
+test_new_algorithms
+test_numeric_types
+test_optimization_simple
+test_random_enhanced
+test_showcase
+test_simple_demo
+test_simple_math
+test_single_allocator
+test_slab
+test_string_algorithms
+test_synchronization
+test_math
+test_gcd
+test_mod
+test_expmod
+test_primality
+test_polynomial
+test_bounded_nat
+test_interval
+test_continued_fraction
+test_fenwick_tree
+test_sparse_matrix
+test_fft
+test_padic
+test_cache_oblivious
+test_groups
+test_graph
+test_type_erasure
+test_math_tools
+test_algebraic_structures
+test_numerical_algorithms
+test_polynomial_systems
+test_template_instantiation
+opt_test_all
+opt_test_golden_section
+opt_test_gradient_descent
+opt_test_integration
+opt_test_newton
+opt_test_root_finding
+opt_test_simulated_annealing
