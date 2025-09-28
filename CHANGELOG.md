@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the Generic Math Library will be documented in this file.
+All notable changes to the Stepanov library will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-09-27
 
 ### Added
-- Initial public release of the Generic Math Library
+- Initial public release of the Stepanov library
 - Core mathematical concepts using C++20 concepts
 - Generic algorithms inspired by Alex Stepanov's principles
 - High-performance matrix operations with 250x+ speedup for structured matrices

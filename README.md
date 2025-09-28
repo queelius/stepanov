@@ -1,6 +1,6 @@
-# Generic Math Library
+# Stepanov
 
-A high-performance, header-only C++20 library for generic mathematical algorithms inspired by Alex Stepanov's principles. This library provides state-of-the-art implementations of fundamental mathematical operations with **250x+ performance improvements** through advanced structure exploitation and optimization techniques.
+A high-performance, header-only C++20 library for generic programming and mathematical algorithms, embodying Alex Stepanov's principles. This library provides state-of-the-art implementations of fundamental mathematical operations with **250x+ performance improvements** through advanced structure exploitation and optimization techniques.
 
 ## Key Features
 
@@ -23,7 +23,7 @@ This is a header-only library. Simply include the headers you need:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/generic_math.git
+git clone https://github.com/queelius/stepanov.git
 
 # Include in your project
 #include <stepanov/concepts.hpp>
@@ -34,8 +34,8 @@ git clone https://github.com/yourusername/generic_math.git
 ### CMake Integration
 
 ```cmake
-add_subdirectory(generic_math)
-target_link_libraries(your_target PRIVATE generic_math)
+add_subdirectory(stepanov)
+target_link_libraries(your_target PRIVATE stepanov)
 ```
 
 ## Usage Examples
@@ -152,10 +152,10 @@ This library is inspired by the work of Alex Stepanov and his contributions to g
 If you use this library in your research, please cite:
 
 ```bibtex
-@software{generic_math,
-  title = {Generic Math: High-Performance Generic Mathematical Algorithms},
+@software{stepanov,
+  title = {Stepanov: High-Performance Generic Programming Library},
   author = {Your Name},
   year = {2024},
-  url = {https://github.com/yourusername/generic_math}
+  url = {https://github.com/queelius/stepanov}
 }
 ```

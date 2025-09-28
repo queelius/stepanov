@@ -1,6 +1,6 @@
-# Generic Math Library v1.0.0 - First Public Release
+# Stepanov v1.0.0 - First Public Release
 
-We are excited to announce the first public release of the Generic Math Library, a high-performance C++20 header-only library that brings Alex Stepanov's generic programming principles to modern mathematical computing.
+We are excited to announce the first public release of Stepanov, a high-performance C++20 header-only library that embodies Alex Stepanov's generic programming principles in modern mathematical computing.
 
 ## Highlights
 
@@ -54,7 +54,7 @@ auto C = A * B;  // Uses O(n) algorithm instead of O(n³)
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/generic_math.git
+git clone https://github.com/queelius/stepanov.git
 # Include headers directly - no build required!
 ```
 
@@ -88,8 +88,8 @@ This library stands on the shoulders of giants, particularly Alex Stepanov's gro
 
 We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-Report issues: https://github.com/yourusername/generic_math/issues
-Discussions: https://github.com/yourusername/generic_math/discussions
+Report issues: https://github.com/queelius/stepanov/issues
+Discussions: https://github.com/queelius/stepanov/discussions
 
 ## License
 
@@ -97,6 +97,6 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ---
 
-**Download**: [generic_math-v1.0.0.tar.gz](#)
+**Download**: [stepanov-v1.0.0.tar.gz](#)
 **Documentation**: [Full Documentation](docs/)
 **Benchmarks**: [Performance Report](docs/OPTIMIZATION_SUMMARY.md)
