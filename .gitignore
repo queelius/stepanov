@@ -1,6 +1,12 @@
 # Prerequisites
 *.d
 
+# Build directories
+build/
+cmake-build-*/
+out/
+.build/
+
 # Compiled Object files
 *.slo
 *.lo
@@ -30,3 +36,97 @@
 *.exe
 *.out
 *.app
+test_*
+benchmark_*
+demo_*
+bench_*
+!*.cpp
+!*.hpp
+!*.h
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+_deps
+*.cmake
+!cmake/*.cmake
+Makefile
+compile_commands.json
+Testing/
+
+# LaTeX intermediate files
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.dvi
+*.pdf.aux
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-*
+.clangd/
+.cache/
+*.code-workspace
+
+# Testing and coverage
+*.gcda
+*.gcno
+*.gcov
+coverage/
+*.profraw
+*.profdata
+htmlcov/
+
+# Documentation build
+docs/html/
+docs/latex/
+docs/xml/
+doxygen_output/
+Doxyfile.bak
+
+# Python cache (if any scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+tmp/
+temp/
+
+# Benchmark results (keep the markdown reports)
+!BENCHMARK_RESULTS.md
+!OPTIMIZATION_RESULTS.md
+!OPTIMIZATION_SUMMARY.md
+!benchmarks/PERFORMANCE_VALIDATION_REPORT.md
+!benchmarks/README.md
+
+# Keep important documentation
+!README.md
+!CHANGELOG.md
+!LICENSE
+!CLAUDE.md
+!docs/*.md
+
+# OS specific
+Thumbs.db
+.directory

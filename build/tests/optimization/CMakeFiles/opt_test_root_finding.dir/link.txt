@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/opt_test_root_finding.dir/link.d CMakeFiles/opt_test_root_finding.dir/test_root_finding.cpp.o -o opt_test_root_finding  /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libgtest.a
