@@ -1,0 +1,84 @@
+site_name: "Stepanov: Generic Programming in C++"
+site_description: "Algorithms arise from algebraic structure"
+site_author: "Alex Towell"
+repo_url: https://github.com/queelius/stepanov
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+  - tables
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/queelius
+    - icon: fontawesome/solid/globe
+      link: https://metafunctor.com
+    - icon: fontawesome/solid/envelope
+      link: mailto:queelius@gmail.com
+
+copyright: "Copyright &copy; 2019-2026 Alex Towell"
+
+nav:
+  - Home: index.md
+  - Posts:
+      - "Peasant: Exponentiation": post/2019-03-peasant-stepanov/index.md
+      - "Modular: Finite Rings": post/2019-06-modular-stepanov/index.md
+      - "Miller-Rabin: Primality": post/2019-09-miller-rabin-stepanov/index.md
+      - "Rational: Exact Arithmetic": post/2020-02-rational-stepanov/index.md
+      - "Polynomials: Euclidean Domains": post/2020-07-polynomials-stepanov/index.md
+      - "Elementa: Linear Algebra": post/2021-03-elementa-stepanov/index.md
+      - "Dual: Forward Autodiff": post/2021-09-dual-stepanov/index.md
+      - "Finite Differences": post/2022-04-finite-diff-stepanov/index.md
+      - "Autodiff: Reverse Mode": post/2023-01-autodiff-stepanov/index.md
+      - "Integration: Quadrature": post/2023-08-integration-stepanov/index.md
+      - "Type Erasure": post/2024-02-type-erasure-stepanov/index.md
+      - "Differentiation": post/2025-01-differentiation-stepanov/index.md
+      - "Synthesis: Seeing Structure": post/2026-01-18-synthesis-stepanov/index.md
+      - "Duality: Dual Structures": post/2026-01-19-duality-stepanov/index.md
+  - About: about.md

@@ -4,86 +4,70 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A header-only C++ library for generic mathematical algorithms inspired by Alex Stepanov's principles and the C++ standard library design. The library emphasizes generic programming, mathematical abstractions, and efficient implementations using concepts lite (C++20 concepts).
+Stepanov is a collection of pedagogical blog posts exploring generic programming and algorithmic mathematics, inspired by Alex Stepanov's principles. Each post is a self-contained article with minimal, elegant C++ code demonstrating one beautiful idea.
 
-## Architecture & Design Philosophy
+## Build Commands
 
-### Core Principles
-- **Generic Programming**: All algorithms are template-based and work with any type satisfying required concepts
-- **Algebraic Structures**: Functions operate on mathematical abstractions (groups, rings, fields, Euclidean domains)
-- **Efficiency Through Abstraction**: Use fundamental operations (half, twice, increment) as building blocks
-- **Concepts-Based Design**: Types must model specific mathematical structures with well-defined axioms
-
-### Key Components
-
-1. **Math Operations** (`math.hpp`):
-   - Generic implementations of `product`, `sum`, `power`, `square`
-   - Built on primitive operations: `twice`, `half`, `even`, `increment`, `decrement`
-   - Types must provide these operations to use the generic algorithms
-
-2. **Number Theory** (`gcd.hpp`, `mod.hpp`, `expmod.hpp`):
-   - GCD for Euclidean domains (requires `quotient`, `remainder`, `norm`)
-   - Modular arithmetic and exponentiation
-   - Fermat primality testing
-
-3. **Data Structures**:
-   - `bounded_nat<N>`: Fixed-size arbitrary precision natural numbers
-   - `polynomial<T>`: Sparse polynomial representation with Newton's method root finding
-
-4. **Group Theory** (`groups/`):
-   - Abstract group operations and axiom validation
-   - Finite group enumeration and testing
-   - Abelian group operations
-
-## Development Commands
-
-### Building and Testing
 ```bash
-# This is a header-only library - no build needed for the library itself
-# To test compilation of headers:
-g++ -std=c++20 -I include -fsyntax-only include/generic_math/*.hpp
+# Configure and build
+cd post
+cmake -B build
+cmake --build build
 
-# For testing individual components (create test files):
-g++ -std=c++20 -I include -O3 test_program.cpp -o test_program
+# Run all tests
+ctest --test-dir build --output-on-failure
 
-# Enable concepts checking:
-g++ -std=c++20 -fconcepts-diagnostics-depth=2 -I include test.cpp
+# Run a single test
+./build/test_peasant
+./build/test_primality
+./build/test_dual
 ```
 
-### Code Style Guidelines
-- Use snake_case for all identifiers
-- Template parameters use PascalCase (e.g., `EuclideanDomain`)
-- Concepts should clearly state mathematical requirements in comments
-- Prefer free functions over member functions for generic algorithms
+## Posts
 
-## Refactoring Priorities for Generic Programming
+All posts live in `post/`. Each has `index.md` (article), `*.hpp` (implementation), and tests.
 
-1. **Add C++20 Concepts**: Replace commented-out concept definitions with proper C++20 concepts
-2. **Fix Compilation Errors**: Several files have syntax errors (e.g., `polynomial.hpp` line 199: `polynormial` typo)
-3. **Standardize Operations**: Ensure all types provide required operations as free functions
-4. **Complete Group Theory Implementation**: `.cpp` files in `groups/` should become header-only templates
-5. **Add Iterator Support**: Types should provide STL-compatible iterators where appropriate
+| Post | Topic |
+|------|-------|
+| `peasant/` | Russian peasant algorithm, exponentiation, 15 monoid examples |
+| `miller-rabin/` | Probabilistic primality testing |
+| `rational/` | Exact fraction arithmetic, GCD |
+| `modular/` | Integers mod N as rings |
+| `type-erasure/` | Sean Parent's value-semantic polymorphism |
+| `elementa/` | Pedagogical linear algebra, expression templates |
+| `dual/` | Forward-mode autodiff via dual numbers |
+| `autodiff/` | Reverse-mode autodiff (depends on elementa) |
+| `polynomials/` | Polynomial arithmetic, Euclidean domains |
+| `finite-diff/` | Numerical differentiation |
+| `integration/` | Numerical quadrature (works with dual numbers) |
 
-## Testing Strategy
-- Create comprehensive test suite using property-based testing for mathematical properties
-- Test algebraic axioms (associativity, commutativity, distributivity)
-- Verify concepts are properly constrained
-- Performance benchmarks comparing to standard implementations
+## Core Design Pattern
 
-## Example Usage Pattern
+Algorithms arise from **algebraic structure**. Types satisfy concepts by providing free functions discoverable via ADL:
+
 ```cpp
-#include <generic_math/gcd.hpp>
-
-// Type must model EuclideanDomain concept
-template<typename T>
-requires EuclideanDomain<T>
-T extended_gcd(T a, T b, T& x, T& y) {
-    // Implementation using generic operations
-}
+// Operations for the algebraic concept in peasant.hpp
+zero(x)       // additive identity
+one(x)        // multiplicative identity
+twice(x)      // doubling
+half(x)       // halving
+even(x)       // parity test
 ```
 
-## Important Notes
-- This library requires C++20 or later for concepts support
-- All algorithms should be constexpr where possible
-- Focus on mathematical correctness over premature optimization
-- Document mathematical requirements and axioms for each concept
+Any type providing these operations works with `power()`, `product()`, etc.
+
+## Code Style
+
+- **Identifiers**: `snake_case` for all names
+- **Template parameters**: `PascalCase` (e.g., `EuclideanDomain`)
+- **Generic algorithms**: Prefer free functions over member functions
+- **Operations**: Types expose algebraic operations as free functions for ADL
+- **Constexpr**: Use `constexpr` where mathematically meaningful
+- **C++ Standard**: C++23
+
+## Philosophy
+
+- **Minimal**: Each implementation is ~100-400 lines
+- **Pedagogical**: Code teaches principles, not production patterns
+- **Self-contained**: Each post directory stands alone
+- **Algebraic**: Structure determines algorithms (Stepanov's insight)

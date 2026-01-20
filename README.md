@@ -1,161 +1,115 @@
 # Stepanov
 
-A high-performance, header-only C++20 library for generic programming and mathematical algorithms, embodying Alex Stepanov's principles. This library provides state-of-the-art implementations of fundamental mathematical operations with **250x+ performance improvements** through advanced structure exploitation and optimization techniques.
+Pedagogical blog posts exploring generic programming and algorithmic mathematics in C++20.
 
-## Key Features
+**Named for Alex Stepanov**, whose work on the STL and *Elements of Programming* showed that algorithms arise from algebraic structure, not ad-hoc coding.
 
-### 250x+ Performance Gains
-Our matrix multiplication algorithms achieve unprecedented performance through:
-- **Structure-aware optimization**: Specialized algorithms for sparse, diagonal, symmetric, and banded matrices
-- **Cache-friendly algorithms**: Optimized memory access patterns and blocking strategies
-- **SIMD acceleration**: Vectorized operations for maximum throughput
-- **Compile-time optimization**: Template metaprogramming for zero-overhead abstractions
+## The Core Thesis
 
-### Mathematical Foundations
-- **Generic Programming**: Template-based algorithms working with any type satisfying required concepts
-- **Algebraic Structures**: Groups, Rings, Fields, Euclidean Domains with compile-time verification
-- **C++20 Concepts**: Type-safe, self-documenting interfaces with clear mathematical requirements
-- **Composable Operations**: Build complex algorithms from simple, well-tested primitives
+**Algorithms arise from algebraic structure.** The Russian peasant algorithm isn't about integers—it's about monoids. The same `power()` function computes integer exponentiation, Fibonacci numbers (via matrices), 3D rotation composition (via quaternions), and shortest paths (via tropical semirings).
 
-## Installation
+See structure first, algorithm second.
 
-This is a header-only library. Simply include the headers you need:
+## Posts
+
+Each post in `post/` is self-contained with:
+- `index.md` — The article (Hugo-compatible with YAML frontmatter)
+- `*.hpp` — Minimal implementation (~100-400 lines)
+- Tests
+
+| Post | Topic |
+|------|-------|
+| `2019-03-peasant-stepanov/` | Russian peasant algorithm, exponentiation, 15 monoid examples |
+| `2019-06-modular-stepanov/` | Integers mod N as rings and fields |
+| `2019-09-miller-rabin-stepanov/` | Probabilistic primality testing |
+| `2020-02-rational-stepanov/` | Exact fraction arithmetic, GCD |
+| `2020-07-polynomials-stepanov/` | Polynomial arithmetic, Euclidean domains |
+| `2021-03-elementa-stepanov/` | Pedagogical linear algebra, Matrix concept |
+| `2021-09-dual-stepanov/` | Forward-mode autodiff via dual numbers |
+| `2022-04-finite-diff-stepanov/` | Numerical differentiation |
+| `2023-01-autodiff-stepanov/` | Reverse-mode autodiff (backpropagation) |
+| `2023-08-integration-stepanov/` | Numerical quadrature |
+| `2024-02-type-erasure-stepanov/` | Sean Parent's value-semantic polymorphism |
+| `2025-01-differentiation-stepanov/` | Differentiation techniques compared |
+| `2026-01-18-synthesis-stepanov/` | Synthesis: seeing structure first |
+| `2026-01-19-duality-stepanov/` | Duality: forward/reverse, push/pull, encode/decode |
+
+## Building
 
 ```bash
-# Clone the repository
-git clone https://github.com/queelius/stepanov.git
-
-# Include in your project
-#include <stepanov/concepts.hpp>
-#include <stepanov/algorithms.hpp>
-#include <stepanov/matrix.hpp>
+make build   # Configure and build
+make test    # Run tests
+make clean   # Remove build artifacts
 ```
 
-### CMake Integration
+Or manually:
 
-```cmake
-add_subdirectory(stepanov)
-target_link_libraries(your_target PRIVATE stepanov)
+```bash
+cd post
+cmake -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
 ```
 
-## Usage Examples
+## Directory Structure
 
-### High-Performance Matrix Operations
-
-```cpp
-#include <stepanov/matrix.hpp>
-
-// Automatic structure detection and optimization
-auto A = stepanov::sparse_matrix<double>(1000, 1000);
-auto B = stepanov::diagonal_matrix<double>(1000);
-
-// Uses specialized O(n) algorithm instead of O(n³)
-auto C = A * B;  // 250x faster than naive multiplication
+```
+stepanov/
+├── post/                        # Blog posts (Hugo/mkdocs compatible)
+│   ├── 2019-03-peasant-stepanov/
+│   │   ├── index.md            # Article with YAML frontmatter
+│   │   ├── peasant.hpp         # Implementation
+│   │   └── examples/           # Monoid examples
+│   ├── 2019-06-modular-stepanov/
+│   │   └── ...
+│   ├── CMakeLists.txt
+│   └── build/                  # Generated (gitignored)
+├── docs/                        # mkdocs site source
+│   ├── index.md                # Landing page
+│   └── about.md
+├── mkdocs.yml                   # mkdocs configuration
+├── CLAUDE.md                    # AI assistant instructions
+├── Makefile
+└── README.md
 ```
 
-### Generic Algorithms
+## Reading Order
 
-```cpp
-#include <stepanov/algorithms.hpp>
+**Number theory track:**
+1. `peasant` → `modular` → `miller-rabin`
 
-// Works with any type satisfying the concept
-template<stepanov::euclidean_domain T>
-T gcd(T a, T b) {
-    while (b != T(0)) {
-        T r = remainder(a, b);
-        a = b;
-        b = r;
-    }
-    return a;
-}
-```
+**Calculus track:**
+1. `dual` → `finite-diff` → `integration` → `autodiff`
 
-### Number Theory
+**Linear algebra track:**
+1. `elementa` → `autodiff`
 
-```cpp
-#include <stepanov/number_theory.hpp>
+**Algebraic structures track:**
+1. `rational` → `polynomials`
 
-// Modular exponentiation with automatic algorithm selection
-auto result = stepanov::power_mod(base, exponent, modulus);
+**Start anywhere.** Each post is self-contained. The `synthesis` post ties everything together.
 
-// Extended GCD with Bézout coefficients
-auto [g, x, y] = stepanov::extended_gcd(a, b);
-```
+## Philosophy
 
-## Core Components
+- **Minimal**: ~100-400 lines per implementation
+- **Pedagogical**: Code teaches principles, not production patterns
+- **Algebraic**: Structure determines algorithms
+- **Self-contained**: Each post stands alone
 
-### Concepts (`include/stepanov/concepts.hpp`)
-- Mathematical type requirements (Ring, Field, EuclideanDomain)
-- Algorithm constraints and compile-time verification
-- Clear, self-documenting interfaces
+## Blog
 
-### Algorithms (`include/stepanov/algorithms.hpp`)
-- Generic accumulation and reduction
-- Orbit and cycle detection (Floyd's, Brent's algorithms)
-- Partitioning and permutation algorithms
-- Function composition and lifting
+These posts are published at [metafunctor.com](https://metafunctor.com) in the Stepanov series.
 
-### Matrix Operations (`include/stepanov/matrix.hpp`)
-- **Unified Matrix Framework**: Single interface, multiple implementations
-- **Structure Exploitation**: Automatic detection and optimization
-- **Performance**: 250x+ speedup for structured matrices
-- **Memory Efficient**: Specialized storage for sparse/banded matrices
+## Further Reading
 
-### Number Theory (`include/stepanov/number_theory.hpp`)
-- GCD algorithms (Euclidean, Binary/Stein's, Extended)
-- Modular arithmetic and exponentiation
-- Prime testing (Miller-Rabin, Fermat)
-- Chinese Remainder Theorem
+- Stepanov & McJones, *Elements of Programming* (2009)
+- Stepanov & Rose, *From Mathematics to Generic Programming* (2014)
+- [Stepanov's collected papers](http://stepanovpapers.com/)
 
-### Data Structures
-- **Polynomial**: Sparse representation with Newton-Raphson root finding
-- **BigNum**: Arbitrary precision arithmetic
-- **Compressed Containers**: Memory-efficient storage with transparent access
+## Author
 
-## Performance Benchmarks
-
-| Operation | Naive | Optimized | Speedup |
-|-----------|--------|-----------|---------|
-| Sparse Matrix Multiplication (90% zeros) | 1000ms | 4ms | 250x |
-| Diagonal Matrix Multiplication | 980ms | 0.98ms | 1000x |
-| Symmetric Matrix Operations | 1200ms | 600ms | 2x |
-| Banded Matrix Solver | 890ms | 12ms | 74x |
-
-## Requirements
-
-- C++20 compatible compiler (GCC 10+, Clang 12+, MSVC 2019+)
-- CMake 3.14+ (for building tests and examples)
-- Optional: Google Benchmark (for performance tests)
-
-## Documentation
-
-Comprehensive documentation is available in the `docs/` directory:
-- [Design Philosophy](docs/DESIGN_PHILOSOPHY.md)
-- [API Reference](docs/MODULES.md)
-- [Performance Guide](docs/OPTIMIZATION_SUMMARY.md)
-- [Best Practices](docs/BEST_PRACTICES.md)
-
-## Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+**Alex Towell** — [metafunctor.com](https://metafunctor.com) — [queelius@gmail.com](mailto:queelius@gmail.com)
 
 ## License
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
-
-## Acknowledgments
-
-This library is inspired by the work of Alex Stepanov and his contributions to generic programming. The design follows principles from "Elements of Programming" and the C++ Standard Library.
-
-## Citation
-
-If you use this library in your research, please cite:
-
-```bibtex
-@software{stepanov,
-  title = {Stepanov: High-Performance Generic Programming Library},
-  author = {Your Name},
-  year = {2024},
-  url = {https://github.com/queelius/stepanov}
-}
-```
+MIT
