@@ -31,4 +31,4 @@ Each post demonstrates one beautiful idea with minimal, pedagogical C++ code (~1
 
 ---
 
-*By [Alex Towell](https://metafunctor.com). These posts also appear on [metafunctor.com](https://metafunctor.com/computer-science/stepanov/).*
+*By [Alex Towell](https://metafunctor.com). These posts also appear on [metafunctor.com](https://metafunctor.com/series/stepanov/).*
