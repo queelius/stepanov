@@ -1,23 +1,27 @@
 ---
-title: "Duality: The Hidden Structure of Opposites"
+title: 'Duality: The Hidden Structure of Opposites'
 date: 2026-01-19
 draft: false
 tags:
-  - C++
-  - duality
-  - category-theory
-  - automatic-differentiation
-  - iterators
-  - generic-programming
+- C++
+- duality
+- category-theory
+- automatic-differentiation
+- iterators
+- generic-programming
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 13
 math: true
-description: "Many structures come in pairs: forward/reverse AD, push/pull iteration, encode/decode. Recognizing duality lets you transfer theorems and insights between domains."
+description: 'Many structures come in pairs: forward/reverse AD, push/pull iteration, encode/decode. Recognizing duality lets
+  you transfer theorems and insights between domains.'
+linked_project:
+- dual
+- stepanov
 ---
-
 *Many structures come in pairs. Recognizing duality lets you transfer insights between domains.*
 
 ## The Motivating Example

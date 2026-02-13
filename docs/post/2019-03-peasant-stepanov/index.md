@@ -1,22 +1,25 @@
 ---
-title: "One Algorithm, Infinite Powers"
+title: One Algorithm, Infinite Powers
 date: 2019-03-15
 draft: false
 tags:
-  - C++
-  - generic-programming
-  - algorithms
-  - monoids
-  - number-theory
+- C++
+- generic-programming
+- algorithms
+- monoids
+- number-theory
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 1
 math: true
-description: "The Russian peasant algorithm teaches us that one algorithm can compute products, powers, Fibonacci numbers, and more---once we see the underlying algebraic structure."
+description: The Russian peasant algorithm teaches us that one algorithm can compute products, powers, Fibonacci numbers,
+  and more—once we see the underlying algebraic structure.
+linked_project:
+- stepanov
 ---
-
 *How the Russian peasant algorithm reveals the universal structure of exponentiation*
 
 ## The Algorithm

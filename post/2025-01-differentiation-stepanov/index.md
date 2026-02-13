@@ -1,28 +1,28 @@
 ---
-author:
-  name: "Alex Towell"
-  email: "queelius@gmail.com"
-  url: "https://metafunctor.com"
-title: "Differentiation: Three Ways"
+title: 'Differentiation: Three Ways'
 date: 2025-01-15
 draft: false
 tags:
-  - C++
-  - automatic-differentiation
-  - numerical-methods
-  - calculus
-  - machine-learning
-  - dual-numbers
+- C++
+- automatic-differentiation
+- numerical-methods
+- calculus
+- machine-learning
+- dual-numbers
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 12
 math: true
-description: "Three approaches to computing derivatives---forward-mode AD, reverse-mode AD, and finite differences---each with different trade-offs. Understanding when to use each is essential for numerical computing and machine learning."
+description: Three approaches to computing derivatives—forward-mode AD, reverse-mode AD, and finite differences—each with
+  different trade-offs. Understanding when to use each is essential for numerical computing and machine learning.
 featured: true
+linked_project:
+- dual
+- stepanov
 ---
-
 *A synthesis of three earlier posts, comparing forward-mode AD, reverse-mode AD, and numerical differentiation.*
 
 Computing derivatives is fundamental to optimization, machine learning, physics simulation, and numerical analysis. This series has explored three distinct approaches:

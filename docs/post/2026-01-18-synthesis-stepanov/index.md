@@ -1,24 +1,28 @@
 ---
-title: "Seeing Structure First"
+title: Seeing Structure First
 date: 2026-01-18
 draft: false
 tags:
-  - C++
-  - generic-programming
-  - algorithms
-  - monoids
-  - algebraic-structures
-  - stepanov
+- C++
+- generic-programming
+- algorithms
+- monoids
+- algebraic-structures
+- stepanov
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 0
 math: true
-description: "A reflection on eleven explorations in generic programming—how algorithms arise from algebraic structure."
+description: A reflection on eleven explorations in generic programming—how algorithms arise from algebraic structure.
 featured: true
+linked_project:
+- dual
+- elementa
+- stepanov
 ---
-
 *A reflection on eleven explorations in generic programming*
 
 ## The Question Behind the Code

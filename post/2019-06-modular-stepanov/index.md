@@ -1,26 +1,25 @@
 ---
-author:
-  name: "Alex Towell"
-  email: "queelius@gmail.com"
-  url: "https://metafunctor.com"
-title: "Modular Arithmetic as Rings"
+title: Modular Arithmetic as Rings
 date: 2019-06-22
 draft: false
 tags:
-  - C++
-  - generic-programming
-  - number-theory
-  - rings
-  - algebra
+- C++
+- generic-programming
+- number-theory
+- rings
+- algebra
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 2
 math: true
-description: "Integers modulo N form a ring---an algebraic structure that determines which algorithms apply. Understanding this structure unlocks algorithms from cryptography to competitive programming."
+description: Integers modulo N form a ring—an algebraic structure that determines which algorithms apply. Understanding this
+  structure unlocks algorithms from cryptography to competitive programming.
+linked_project:
+- stepanov
 ---
-
 *Finite algebraic structures and what they teach us about algorithms*
 
 ## The Stepanov Perspective

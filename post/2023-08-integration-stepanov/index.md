@@ -1,27 +1,27 @@
 ---
-author:
-  name: "Alex Towell"
-  email: "queelius@gmail.com"
-  url: "https://metafunctor.com"
-title: "Numerical Integration with Generic Concepts"
+title: Numerical Integration with Generic Concepts
 date: 2023-08-28
 draft: false
 tags:
-  - C++
-  - numerical-methods
-  - integration
-  - quadrature
-  - concepts
-  - generic-programming
+- C++
+- numerical-methods
+- integration
+- quadrature
+- concepts
+- generic-programming
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 10
 math: true
-description: "Numerical integration demonstrates both classical numerical analysis and Stepanov's philosophy: by identifying the minimal algebraic requirements, our quadrature routines work with dual numbers for automatic differentiation under the integral."
+description: 'Numerical integration demonstrates both classical numerical analysis and Stepanov''s philosophy: by identifying
+  the minimal algebraic requirements, our quadrature routines work with dual numbers for automatic differentiation under the
+  integral.'
+linked_project:
+- stepanov
 ---
-
 *Numerical integration (quadrature) for C++20.*
 
 ## Overview

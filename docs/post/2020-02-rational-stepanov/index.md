@@ -1,22 +1,25 @@
 ---
-title: "Exact Rational Arithmetic"
+title: Exact Rational Arithmetic
 date: 2020-02-18
 draft: false
 tags:
-  - C++
-  - generic-programming
-  - number-theory
-  - fractions
-  - exact-arithmetic
+- C++
+- generic-programming
+- number-theory
+- fractions
+- exact-arithmetic
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 4
 math: true
-description: "Rational numbers give us exact arithmetic where floating-point fails. The implementation reveals deep connections to GCD, the Stern-Brocot tree, and the algebraic structure of fields."
+description: Rational numbers give us exact arithmetic where floating-point fails. The implementation reveals deep connections
+  to GCD, the Stern-Brocot tree, and the algebraic structure of fields.
+linked_project:
+- stepanov
 ---
-
 *Fractions that never lose precision*
 
 ## The Problem with Floating-Point

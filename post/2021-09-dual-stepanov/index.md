@@ -1,26 +1,26 @@
 ---
-author:
-  name: "Alex Towell"
-  email: "queelius@gmail.com"
-  url: "https://metafunctor.com"
-title: "Forward-Mode Automatic Differentiation"
+title: Forward-Mode Automatic Differentiation
 date: 2021-09-20
 draft: false
 tags:
-  - C++
-  - automatic-differentiation
-  - dual-numbers
-  - calculus
-  - machine-learning
+- C++
+- automatic-differentiation
+- dual-numbers
+- calculus
+- machine-learning
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 7
 math: true
-description: "Dual numbers extend our number system with an infinitesimal epsilon where epsilon^2 = 0. Evaluating f(x + epsilon) yields f(x) + epsilon * f'(x)---the derivative emerges automatically from the algebra."
+description: Dual numbers extend our number system with an infinitesimal epsilon where epsilon^2 = 0. Evaluating f(x + epsilon)
+  yields f(x) + epsilon * f'(x)—the derivative emerges automatically from the algebra.
+linked_project:
+- dual
+- stepanov
 ---
-
 *Forward-mode automatic differentiation via dual numbers for C++20.*
 
 ## Overview

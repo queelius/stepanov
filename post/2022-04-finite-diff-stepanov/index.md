@@ -1,8 +1,4 @@
 ---
-author:
-  name: "Alex Towell"
-  email: "queelius@gmail.com"
-  url: "https://metafunctor.com"
 title: "Numerical Differentiation"
 date: 2022-04-12
 draft: false
@@ -18,7 +14,7 @@ categories:
 series: ["stepanov"]
 series_weight: 8
 math: true
-description: "The art of numerical differentiation lies in choosing step size h wisely---small enough that the approximation is good, but not so small that floating-point errors dominate."
+description: "The art of numerical differentiation lies in choosing step size h wisely—small enough that the approximation is good, but not so small that floating-point errors dominate."
 ---
 
 *Numerical differentiation via finite differences for C++20.*

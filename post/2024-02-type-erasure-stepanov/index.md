@@ -1,8 +1,4 @@
 ---
-author:
-  name: "Alex Towell"
-  email: "queelius@gmail.com"
-  url: "https://metafunctor.com"
 title: "Runtime Polymorphism Without Inheritance"
 date: 2024-02-05
 draft: false

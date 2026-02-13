@@ -1,23 +1,26 @@
 ---
-title: "Teaching Linear Algebra with C++20 Concepts"
+title: Teaching Linear Algebra with C++20 Concepts
 date: 2021-03-08
 draft: false
 tags:
-  - C++
-  - C++20
-  - linear-algebra
-  - concepts
-  - matrices
-  - generic-programming
+- C++
+- C++20
+- linear-algebra
+- concepts
+- matrices
+- generic-programming
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 6
 math: true
-description: "elementa is a pedagogical linear algebra library where every design decision prioritizes clarity over cleverness---code that reads like a textbook that happens to compile."
+description: elementa is a pedagogical linear algebra library where every design decision prioritizes clarity over cleverness—code
+  that reads like a textbook that happens to compile.
+linked_project:
+- elementa
 ---
-
 Why build yet another linear algebra library? The world already has Eigen, Armadillo, Blaze, and countless others. The answer lies not in performance or features, but in *pedagogy*.
 
 elementa exists to teach three things simultaneously: linear algebra, modern C++, and numerical computing. Every design decision prioritizes clarity over cleverness. The code reads like a textbook that happens to compile.

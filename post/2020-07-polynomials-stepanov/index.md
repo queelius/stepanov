@@ -1,26 +1,25 @@
 ---
-author:
-  name: "Alex Towell"
-  email: "queelius@gmail.com"
-  url: "https://metafunctor.com"
-title: "Polynomials as Euclidean Domains"
+title: Polynomials as Euclidean Domains
 date: 2020-07-14
 draft: false
 tags:
-  - C++
-  - generic-programming
-  - algebra
-  - polynomials
-  - euclidean-domain
+- C++
+- generic-programming
+- algebra
+- polynomials
+- euclidean-domain
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 5
 math: true
-description: "The same GCD algorithm works for integers and polynomials because both are Euclidean domains. This profound insight shows how algebraic structure determines algorithmic applicability."
+description: The same GCD algorithm works for integers and polynomials because both are Euclidean domains. This profound insight
+  shows how algebraic structure determines algorithmic applicability.
+linked_project:
+- stepanov
 ---
-
 *Polynomial arithmetic teaches a profound truth: **the same GCD algorithm works for integers and polynomials**.*
 
 ## Overview

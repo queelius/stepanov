@@ -1,22 +1,25 @@
 ---
-title: "Is It Prime?"
+title: Is It Prime?
 date: 2019-09-10
 draft: false
 tags:
-  - C++
-  - algorithms
-  - number-theory
-  - primality
-  - probabilistic-algorithms
+- C++
+- algorithms
+- number-theory
+- primality
+- probabilistic-algorithms
 categories:
-  - Computer Science
-  - Mathematics
-series: ["stepanov"]
+- Computer Science
+- Mathematics
+series:
+- stepanov
 series_weight: 3
 math: true
-description: "The Miller-Rabin primality test demonstrates how probabilistic algorithms can achieve arbitrary certainty, trading absolute truth for practical efficiency."
+description: The Miller-Rabin primality test demonstrates how probabilistic algorithms can achieve arbitrary certainty, trading
+  absolute truth for practical efficiency.
+linked_project:
+- stepanov
 ---
-
 *The Miller-Rabin primality test and the mathematics of certainty*
 
 ## The Problem

@@ -1,8 +1,4 @@
 ---
-author:
-  name: "Alex Towell"
-  email: "queelius@gmail.com"
-  url: "https://metafunctor.com"
 title: "Reverse-Mode Automatic Differentiation"
 date: 2023-01-17
 draft: false
@@ -18,7 +14,7 @@ categories:
 series: ["stepanov"]
 series_weight: 9
 math: true
-description: "Reverse-mode automatic differentiation powers modern machine learning. Understanding how it works demystifies PyTorch, JAX, and TensorFlow---it's just the chain rule applied systematically."
+description: "Reverse-mode automatic differentiation powers modern machine learning. Understanding how it works demystifies PyTorch, JAX, and TensorFlow—it's just the chain rule applied systematically."
 ---
 
 *Demystifying automatic differentiation: building a reverse-mode AD system in C++20.*
