@@ -7,6 +7,10 @@ cmake-build-*/
 out/
 .build/
 
+# mkdocs build artifacts
+site/
+docs/post/
+
 # Compiled Object files
 *.slo
 *.lo
