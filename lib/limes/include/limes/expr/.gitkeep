@@ -1,0 +1,3 @@
+# Placeholder for future expression layer
+# The expr namespace will provide symbolic expression handling
+# with support for multivariate integration via chained .over() calls

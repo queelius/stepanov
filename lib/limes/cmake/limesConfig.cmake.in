@@ -1,0 +1,14 @@
+@PACKAGE_INIT@
+
+# limes - A pedagogical C++20 library for numerical calculus
+#
+# This module defines the following imported target:
+#   limes::limes - The limes header-only library
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(Threads)
+
+include("${CMAKE_CURRENT_LIST_DIR}/limesTargets.cmake")
+
+check_required_components(limes)
