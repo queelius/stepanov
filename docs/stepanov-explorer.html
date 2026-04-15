@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stepanov Interactive Textbook</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #1a1a2e; --surface: #16213e; --surface2: #0f3460; --accent: #e94560; --accent2: #0ea5e9;
+  --text: #e0e0e0; --text-dim: #8899aa; --text-bright: #fff; --border: #2a3a5e; --code-bg: #0d1b2a;
+}
+body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+.header h1 { font-size: 1.1rem; color: var(--text-bright); white-space: nowrap; }
+.view-tabs { display: flex; gap: 4px; }
+.view-tab { padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
+.view-tab:hover { color: var(--text); border-color: var(--text-dim); }
+.view-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+.search-box { margin-left: auto; padding: 5px 10px; background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-size: 0.8rem; width: 200px; }
+.search-box::placeholder { color: var(--text-dim); }
+.main { display: flex; flex: 1; overflow: hidden; }
+.canvas-wrap { flex: 1; position: relative; }
+canvas { display: block; width: 100%; height: 100%; }
+.detail-panel { width: 380px; background: var(--surface); border-left: 1px solid var(--border); overflow-y: auto; flex-shrink: 0; }
+.detail-content { padding: 16px; }
+.detail-section { margin-bottom: 16px; }
+h2 { font-size: 1rem; color: var(--accent2); margin-bottom: 8px; }
+h3 { font-size: 0.9rem; color: var(--text-bright); margin-bottom: 6px; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 0.7rem; margin: 2px; }
+.tag-monoid { background: rgba(34,197,94,0.2); color: #22c55e; }
+.tag-ring { background: rgba(245,158,11,0.2); color: #f59e0b; }
+.tag-lattice { background: rgba(168,85,247,0.2); color: #a855f7; }
+.tag-morphism { background: rgba(236,72,153,0.2); color: #ec4899; }
+pre { background: var(--code-bg); padding: 10px; border-radius: 4px; overflow-x: auto; font-family: monospace; font-size: 0.75rem; line-height: 1.5; margin: 8px 0; border: 1px solid var(--border); white-space: pre-wrap; }
+.desc { font-size: 0.82rem; line-height: 1.6; margin-bottom: 8px; }
+.desc-dim { font-size: 0.78rem; color: var(--text-dim); line-height: 1.5; }
+.laws { list-style: none; }
+.laws li { font-size: 0.78rem; padding: 3px 0; padding-left: 14px; position: relative; }
+.laws li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); }
+.connections { list-style: none; }
+.connections li { font-size: 0.78rem; padding: 4px 8px; margin: 2px 0; border-radius: 3px; cursor: pointer; }
+.connections li:hover { background: rgba(14,165,233,0.15); }
+.conn-label { color: var(--text-dim); font-size: 0.7rem; }
+.algo-box { background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.2); border-radius: 6px; padding: 10px; margin: 8px 0; }
+.algo-box h3 { color: var(--accent2); font-size: 0.82rem; }
+.tooltip { position: absolute; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; font-size: 0.78rem; pointer-events: none; z-index: 100; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: none; }
+.legend { position: absolute; bottom: 12px; left: 12px; background: rgba(22,33,62,0.9); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-size: 0.7rem; }
+.legend-item { display: flex; align-items: center; gap: 6px; margin: 3px 0; color: var(--text-dim); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+.empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; color: var(--text-dim); text-align: center; padding: 20px; }
+.empty-state h2 { color: var(--text); margin-bottom: 8px; }
+.inline-code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; font-family: monospace; font-size: 0.75rem; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Stepanov Explorer</h1>
+  <div class="view-tabs" id="viewTabs"></div>
+  <input class="search-box" type="text" placeholder="Search structures, posts..." id="searchInput">
+</div>
+<div class="main">
+  <div class="canvas-wrap" id="canvasWrap">
+    <canvas id="graph"></canvas>
+    <div class="legend" id="legend"></div>
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+  <div class="detail-panel"><div class="detail-content" id="detailContent"></div></div>
+</div>
+<script>
+// All data is hardcoded strings, no user input flows into rendering
+// DOM updates use textContent for text and controlled template assembly
+
+const S = [
+  {id:'s-sg',n:'Semigroup',c:'monoid',s:'Associative binary operation',
+   laws:['Associativity: (a \xb7 b) \xb7 c = a \xb7 (b \xb7 c)'],
+   d:'The minimal algebraic structure. A set with one associative binary operation.',
+   alg:'Parallel reduction',code:'// Semigroup: associativity alone\n// Enables regrouping computation',posts:['peasant']},
+  {id:'s-mon',n:'Monoid',c:'monoid',s:'Semigroup + identity element',
+   laws:['Associativity: (a \xb7 b) \xb7 c = a \xb7 (b \xb7 c)','Identity: e \xb7 a = a \xb7 e = a'],
+   d:'The workhorse. Associativity gives O(log n) via regrouping. Identity gives the base case. Behind power(), fold(), and parallel composition.',
+   alg:'Power by repeated squaring, O(log n)',
+   con:'template<typename M>\nconcept Monoid = requires(M a, M b) {\n    { op(a, b) } -> std::convertible_to<M>;\n    { identity(a) } -> std::convertible_to<M>;\n};',
+   code:'template<typename T>\nT power(T base, int exp) {\n    T result = one(base);\n    while (exp > 0) {\n        if (exp & 1) result = result * base;\n        base = base * base;\n        exp >>= 1;\n    }\n    return result;\n}',posts:['peasant','accumulator','homomorphism','free-algebra']},
+  {id:'s-grp',n:'Group',c:'monoid',s:'Monoid + inverses',
+   laws:['Associativity','Identity','Inverses: a \xb7 a\u207b\xb9 = e'],
+   d:'Monoid where every element has an inverse. Quaternion rotations form a group.',
+   alg:'Negative powers, division',code:'// a * inverse(a) = identity\n// power(a, -n) = power(inverse(a), n)',posts:['peasant','modular']},
+  {id:'s-sr',n:'Semiring',c:'ring',s:'Two monoids linked by distributivity',
+   laws:['(S, +, 0) commutative monoid','(S, \xd7, 1) monoid','Distributivity: a\xd7(b+c) = a\xd7b + a\xd7c','Annihilation: 0\xd7a = 0'],
+   d:'A ring without subtraction. Different semirings in the same matrix power yield different graph algorithms.',
+   alg:'Graph algorithms via matrix power',
+   con:'template<typename S>\nconcept Semiring = std::semiregular<S> &&\n    requires(S a, S b) {\n        { a + b }; { a * b };\n        { zero(a) }; { one(a) };\n    };',
+   code:'// tropical_min: shortest paths\n// tropical_max: longest paths\n// bottleneck:   widest paths\n// boolean:      reachability\n// counting:     number of paths',posts:['semiring']},
+  {id:'s-ring',n:'Ring',c:'ring',s:'Semiring + subtraction',
+   laws:['(R, +, 0) abelian group','(R, \xd7, 1) monoid','Distributivity'],
+   d:'Two operations linked by distributivity. Integers, polynomials, matrices, and modular integers are rings.',
+   alg:'Polynomial arithmetic, matrix algebra',code:'// mod_int, polynomial, matrix\n// all satisfy Ring',posts:['modular','polynomials','type-erasure']},
+  {id:'s-fld',n:'Field',c:'ring',s:'Ring + division',
+   laws:['(F, +, 0) abelian group','(F\\{0}, \xd7, 1) abelian group','Distributivity'],
+   d:'Every non-zero element has a multiplicative inverse. Rationals, reals, Z/pZ.',
+   alg:'Division, Gaussian elimination',code:'// Fermat: inverse of a mod p\n// = a^(p-2) mod p',posts:['modular','rational']},
+  {id:'s-euc',n:'Euclidean Domain',c:'ring',s:'Ring + division with remainder',
+   laws:['Ring axioms','a = q\xb7b + r, norm(r) < norm(b)'],
+   d:'Division with remainder always possible. Same GCD works for integers (norm=|x|) and polynomials (norm=degree).',
+   alg:'Euclidean GCD',
+   con:'template<euclidean_domain E>\nE gcd(E a, E b) {\n    while (b != E(0))\n        a = std::exchange(b, a % b);\n    return a;\n}',
+   code:'// gcd(48, 18) = 6        integers\n// gcd(x\xb3-1, x\xb2-1) = x-1  polynomials',posts:['peasant','rational','polynomials']},
+  {id:'s-of',n:'Ordered Field',c:'ring',s:'Field + compatible total order',
+   laws:['Field axioms','Total order','a < b implies a+c < b+c'],
+   d:'Field with comparison. Integration uses this as minimal requirement: works with rationals, dual numbers, intervals.',
+   alg:'Numerical integration',
+   con:'template<typename T>\nconcept ordered_field =\n    has_add<T> && has_sub<T> &&\n    has_mul<T> && has_div<T> &&\n    has_order<T>;',
+   code:'// integrate works with:\n// double, rational, dual<double>',posts:['integration']},
+  {id:'s-lat',n:'Lattice',c:'lattice',s:'Partial order with meet and join',
+   laws:['Idempotent: a \u2227 a = a','Commutative: a \u2227 b = b \u2227 a','Associative','Absorption: a \u2227 (a \u2228 b) = a'],
+   d:'Every pair has a greatest lower bound (meet) and least upper bound (join). Foundation of abstract interpretation and static analysis.',
+   alg:"Tarski's fixed-point theorem",
+   con:'template<typename L>\nconcept Lattice = std::semiregular<L> &&\n    requires(L a, L b) {\n        { meet(a, b) }; { join(a, b) };\n    };',
+   code:'template<BoundedLattice L, typename F>\nL least_fixed_point(F f) {\n    L x = bottom(L{});\n    while (true) {\n        L next = f(x);\n        if (next == x) return x;\n        x = join(x, next);\n    }\n}',posts:['lattice']},
+  {id:'s-hom',n:'Homomorphism',c:'morphism',s:'Structure-preserving map',
+   laws:['f(a \u2295 b) = f(a) \u2295 f(b)','f(e_A) = e_B'],
+   d:'A function that preserves operations. length, sum, log are homomorphisms. fold is the universal homomorphism from the free monoid.',
+   alg:'fold, parallel computation',code:'// length(s1 + s2) = length(s1) + length(s2)\n// log(a * b) = log(a) + log(b)\n// fold = universal homomorphism',posts:['homomorphism']},
+  {id:'s-free',n:'Free Algebra',c:'morphism',s:'Most general structure for given axioms',
+   laws:['Satisfies axioms','No extra equations','Universal property: unique hom to any target'],
+   d:'Free monoid = lists. Free ring = polynomials. Universal property: fold is the UNIQUE homomorphism from the free monoid to any target.',
+   alg:'fold = unique homomorphism from free monoid',code:'// extend(f, [a,b,c])\n//   = op(op(f(a), f(b)), f(c))\n// This IS fold. A theorem.',posts:['free-algebra']}
+];
+
+const P = [
+  {id:'peasant',n:'One Algorithm, Infinite Powers',dt:'2019-03',w:1,dir:'2019-03-peasant-stepanov',st:['s-mon','s-sg','s-grp','s-euc'],
+   ins:'Russian peasant works on any monoid. 15 types, same 20 lines. Associativity gives O(log n).',
+   code:'template<typename T>\nconstexpr T power(T const& base, T exp) {\n    if (exp == zero(exp)) return one(exp);\n    if (exp == one(exp))  return base;\n    return even(exp)\n        ? square(power(base, half(exp)))\n        : product(base, power(base, decrement(exp)));\n}'},
+  {id:'modular',n:'Modular Arithmetic as Rings',dt:'2019-06',w:2,dir:'2019-06-modular-stepanov',st:['s-ring','s-fld','s-grp'],
+   ins:'Z/NZ is a ring. When N is prime, a field. Fermat gives inverses.',code:'mod_int inverse() const {\n    return pow(N - 2); // Fermat\n}'},
+  {id:'miller-rabin',n:'Is It Prime?',dt:'2019-09',w:3,dir:'2019-09-miller-rabin-stepanov',st:['s-mon','s-grp'],
+   ins:'Probabilistic primality. 3/4 bound from group theory. k=20: error < 10^-12.',code:'// P(false positive) <= (1/4)^k'},
+  {id:'rational',n:'Exact Rational Arithmetic',dt:'2020-02',w:4,dir:'2020-02-rational-stepanov',st:['s-fld','s-euc'],
+   ins:'Canonical form is a theorem about GCD. Exact equality, no floats.',code:'void reduce() {\n    T g = std::gcd(abs(num_), den_);\n    num_ /= g; den_ /= g;\n}'},
+  {id:'polynomials',n:'Polynomial Arithmetic',dt:'2020-07',w:5,dir:'2020-07-polynomials-stepanov',st:['s-ring','s-euc'],
+   ins:'Same GCD for integers and polynomials. Both Euclidean domains.',code:'// gcd(48, 18) = 6\n// gcd(x^3-1, x^2-1) = x-1'},
+  {id:'elementa',n:'Pedagogical Linear Algebra',dt:'2021-03',w:6,dir:'2021-03-elementa-stepanov',st:['s-ring'],
+   ins:'Matrix concept. LU decomposition powers det, inverse, solve.',code:'concept Matrix = requires(M m) {\n    typename M::scalar_type;\n    { m.rows() }; { m(i, j) };\n};'},
+  {id:'dual',n:'Forward-Mode Autodiff',dt:'2021-09',w:7,dir:'2021-09-dual-stepanov',st:['s-ring'],
+   ins:'Dual numbers: exact derivatives via arithmetic. Product rule built into multiplication.',code:'dual operator*(dual const& o) const {\n    return {val*o.val,\n            val*o.der + der*o.val};\n}'},
+  {id:'finite-diff',n:'Numerical Differentiation',dt:'2022-04',w:8,dir:'2022-04-finite-diff-stepanov',st:['s-of'],
+   ins:'Truncation vs round-off. Optimal h balances both.',code:"// f'(x) ~ (f(x+h) - f(x-h)) / 2h"},
+  {id:'autodiff',n:'Reverse-Mode Autodiff',dt:'2023-01',w:9,dir:'2023-01-autodiff-stepanov',st:['s-ring'],
+   ins:'Gradients via computational graphs. One backward pass for all partials.',code:'auto gradient = grad(f)(A);'},
+  {id:'integration',n:'Numerical Quadrature',dt:'2023-08',w:10,dir:'2023-08-integration-stepanov',st:['s-of'],
+   ins:'Generic over ordered_field. Dual numbers give Leibniz rule through algebra.',code:'template<ordered_field T>\nT simpsons(auto f, T a, T b, int n);'},
+  {id:'type-erasure',n:'Runtime Polymorphism',dt:'2024-02',w:11,dir:'2024-02-type-erasure-stepanov',st:['s-ring'],
+   ins:"Sean Parent's technique on algebraic structures. any_ring at runtime.",code:'struct concept_t {\n    virtual ptr add(concept_t const&) = 0;\n    virtual ptr multiply(concept_t const&) = 0;\n};'},
+  {id:'accumulator',n:'Streaming Statistics as Monoids',dt:'2026-03',w:14,dir:'2026-03-accumulator-stepanov',st:['s-mon'],
+   ins:'Accumulators are monoids. Product monoid: arbitrary statistics in one pass.',code:'concept Accumulator = semiregular<A> &&\n    requires(A a, A b, value_type v) {\n        { a += v }; { a += b };\n    };'},
+  {id:'semiring',n:'One Algorithm, Six Graph Problems',dt:'2026-03',w:15,dir:'2026-03-semiring-stepanov',st:['s-sr','s-mon'],
+   ins:'Different semirings in same matrix power: shortest, longest, widest paths, reachability, counting.',code:'// tropical_min: + is min, * is +\n// Same power algorithm,\n// different graph problem'},
+  {id:'lattice',n:'Fixed Points and Iteration',dt:'2026-03',w:16,dir:'2026-03-lattice-stepanov',st:['s-lat'],
+   ins:"Tarski: monotone on bounded lattice has least fixed point. Foundation of abstract interpretation.",code:'L least_fixed_point(F f) {\n    L x = bottom(L{});\n    while (true) {\n        L next = f(x);\n        if (next == x) return x;\n        x = join(x, next);\n    }\n}'},
+  {id:'homomorphism',n:'The Maps Between Structures',dt:'2026-03',w:17,dir:'2026-03-homomorphism-stepanov',st:['s-hom','s-mon'],
+   ins:'f(a+b) = f(a)+f(b). fold is the universal homomorphism from the free monoid.',code:'// length(s1+s2) = length(s1)+length(s2)\n// log(a*b) = log(a)+log(b)'},
+  {id:'free-algebra',n:'Why Lists and Polynomials Are Universal',dt:'2026-03',w:18,dir:'2026-03-free-algebra-stepanov',st:['s-free','s-mon','s-hom'],
+   ins:'Lists = free monoid. fold = unique homomorphism. Polynomials = free ring.',code:'// extend(f, [a,b,c])\n//   = op(op(f(a),f(b)),f(c))\n// This IS fold.'}
+];
+
+const SE = [
+  {f:'s-sg',t:'s-mon',l:'+ identity'},{f:'s-mon',t:'s-grp',l:'+ inverses'},
+  {f:'s-mon',t:'s-sr',l:'+ 2nd monoid'},{f:'s-sr',t:'s-ring',l:'+ subtraction'},
+  {f:'s-ring',t:'s-fld',l:'+ division'},{f:'s-ring',t:'s-euc',l:'+ remainder'},
+  {f:'s-fld',t:'s-of',l:'+ order'},{f:'s-mon',t:'s-free',l:'free construction'},
+  {f:'s-free',t:'s-hom',l:'universal property'},{f:'s-mon',t:'s-hom',l:'maps between'}
+];
+
+const cv = document.getElementById('graph'), cx = cv.getContext('2d');
+let W,H,dpr,nodes=[],edges=[],view='structures',sel=null,hov=null,drag=null,doff={x:0,y:0},search='';
+
+function resize(){dpr=window.devicePixelRatio||1;const r=cv.parentElement.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';cx.setTransform(dpr,0,0,dpr,0,0)}
+window.addEventListener('resize',()=>{resize();layout();draw()});
+
+function cc(c){return{monoid:'#22c55e',ring:'#f59e0b',lattice:'#a855f7',morphism:'#ec4899',post:'#0ea5e9'}[c]||'#666'}
+
+function build(){
+  nodes=[];edges=[];
+  if(view!=='posts'){
+    S.forEach(s=>{const m=!search||(s.n+' '+s.s+' '+s.d).toLowerCase().includes(search);nodes.push({id:s.id,lb:s.n,c:s.c,d:s,tp:'s',vis:m,r:28})});
+    SE.forEach(e=>edges.push({f:e.f,t:e.t,l:e.l}));
+  } else {
+    P.forEach(p=>{const m=!search||(p.n+' '+p.ins).toLowerCase().includes(search);nodes.push({id:p.id,lb:p.n,c:'post',d:p,tp:'p',vis:m,r:22})});
+    for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const sh=P[i].st.filter(x=>P[j].st.includes(x));if(sh.length)edges.push({f:P[i].id,t:P[j].id,l:S.find(x=>x.id===sh[0])?.n||'',w:sh.length})}
+  }
+}
+
+function layout(){
+  const mx=W/2,my=H/2;
+  if(view!=='posts'){
+    const ps={'s-sg':{x:mx-200,y:80},'s-mon':{x:mx-200,y:200},'s-grp':{x:mx-380,y:320},'s-sr':{x:mx,y:320},'s-ring':{x:mx+20,y:440},'s-fld':{x:mx-140,y:560},'s-euc':{x:mx+180,y:560},'s-of':{x:mx-140,y:670},'s-lat':{x:mx+320,y:200},'s-hom':{x:mx-50,y:120},'s-free':{x:mx+100,y:80}};
+    nodes.forEach(n=>{const p=ps[n.id]||{x:mx,y:my};n.x=p.x;n.y=p.y});
+  } else {
+    const v=nodes.filter(n=>n.vis),nv=v.length;
+    v.forEach((n,i)=>{const a=2*Math.PI*i/nv,r=Math.min(W,H)*0.35;n.x=mx+r*Math.cos(a-Math.PI/2);n.y=my+r*Math.sin(a-Math.PI/2)});
+    for(let it=0;it<150;it++){
+      for(let i=0;i<v.length;i++)for(let j=i+1;j<v.length;j++){let dx=v[j].x-v[i].x,dy=v[j].y-v[i].y,d=Math.sqrt(dx*dx+dy*dy)||1,f=8000/(d*d);v[i].x-=dx/d*f;v[i].y-=dy/d*f;v[j].x+=dx/d*f;v[j].y+=dy/d*f}
+      edges.forEach(e=>{const a=v.find(n=>n.id===e.f),b=v.find(n=>n.id===e.t);if(!a||!b)return;let dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=(d-120)*0.02;a.x+=dx/d*f;a.y+=dy/d*f;b.x-=dx/d*f;b.y-=dy/d*f});
+      v.forEach(n=>{n.x+=(mx-n.x)*0.01;n.y+=(my-n.y)*0.01});
+    }
+    v.forEach(n=>{n.x=Math.max(60,Math.min(W-60,n.x));n.y=Math.max(40,Math.min(H-40,n.y))});
+  }
+}
+
+function draw(){
+  cx.clearRect(0,0,W,H);
+  edges.forEach(e=>{const a=nodes.find(n=>n.id===e.f),b=nodes.find(n=>n.id===e.t);if(!a||!b||!a.vis||!b.vis)return;const s=sel&&(sel.id===a.id||sel.id===b.id);cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.strokeStyle=s?'rgba(14,165,233,0.5)':'rgba(42,58,94,0.6)';cx.lineWidth=s?2:1;cx.stroke();if(e.l&&(s||view!=='posts')){cx.font='10px system-ui';cx.fillStyle=s?'rgba(14,165,233,0.8)':'rgba(136,153,170,0.5)';cx.textAlign='center';cx.fillText(e.l,(a.x+b.x)/2,(a.y+b.y)/2-6)}});
+  nodes.forEach(n=>{if(!n.vis)return;const s=sel&&sel.id===n.id,h=hov&&hov.id===n.id,col=cc(n.c),r=n.r+(h?3:0);if(s){cx.beginPath();cx.arc(n.x,n.y,r+6,0,Math.PI*2);cx.fillStyle=col+'22';cx.fill()}cx.beginPath();cx.arc(n.x,n.y,r,0,Math.PI*2);cx.fillStyle=s?col:col+'33';cx.fill();cx.strokeStyle=col;cx.lineWidth=s?2.5:1.5;cx.stroke();cx.font=(s?'bold ':'')+'11px system-ui';cx.fillStyle=s?'#fff':'#ccc';cx.textAlign='center';cx.textBaseline='middle';const lb=n.lb;if(lb.length>16){const w=lb.split(' ');let l1='',l2='';w.forEach(x=>{if(l1.length+x.length<14)l1+=(l1?' ':'')+x;else l2+=(l2?' ':'')+x});cx.fillText(l1,n.x,n.y-6);cx.fillText(l2,n.x,n.y+7)}else cx.fillText(lb,n.x,n.y);if(view==='algorithms'&&n.d&&n.d.alg){cx.font='9px system-ui';cx.fillStyle='#0ea5e9';cx.fillText('\u2192 '+n.d.alg.substring(0,35),n.x,n.y+r+14)}});
+}
+
+function nodeAt(x,y){for(let i=nodes.length-1;i>=0;i--){const n=nodes[i];if(!n.vis)continue;if((x-n.x)**2+(y-n.y)**2<(n.r+5)**2)return n}return null}
+
+cv.addEventListener('mousedown',e=>{const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,n=nodeAt(x,y);if(n){drag=n;doff={x:x-n.x,y:y-n.y};sel=n;draw();detail(n)}});
+cv.addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;if(drag){drag.x=x-doff.x;drag.y=y-doff.y;draw();return}const n=nodeAt(x,y);if(n!==hov){hov=n;cv.style.cursor=n?'pointer':'default';const tt=document.getElementById('tooltip');if(n){tt.style.display='block';tt.style.left=(e.clientX-cv.parentElement.getBoundingClientRect().left+12)+'px';tt.style.top=(e.clientY-cv.parentElement.getBoundingClientRect().top-10)+'px';tt.textContent='';const t=document.createElement('div');t.style.cssText='color:#fff;font-weight:600;margin-bottom:4px';t.textContent=n.lb;tt.appendChild(t);const d=document.createElement('div');d.style.cssText='color:#8899aa;font-size:0.72rem';d.textContent=n.d.s||n.d.ins||'';tt.appendChild(d)}else tt.style.display='none';draw()}});
+cv.addEventListener('mouseup',()=>{drag=null});
+cv.addEventListener('mouseleave',()=>{drag=null;hov=null;document.getElementById('tooltip').style.display='none';draw()});
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+function detail(node){
+  const el=document.getElementById('detailContent');
+  el.textContent='';
+  if(node.tp==='s'){
+    const s=node.d,rp=P.filter(p=>p.st.includes(s.id));
+    let h='';
+    h+='<div class="detail-section"><h2>'+esc(s.n)+'</h2><span class="tag tag-'+s.c+'">'+s.c+'</span><p class="desc" style="margin-top:8px">'+esc(s.d)+'</p></div>';
+    h+='<div class="detail-section"><h3>Laws</h3><ul class="laws">'+s.laws.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul></div>';
+    if(s.alg)h+='<div class="detail-section"><div class="algo-box"><h3>Algorithm Enabled</h3><p class="desc-dim">'+esc(s.alg)+'</p></div></div>';
+    if(s.con)h+='<div class="detail-section"><h3>C++20 Concept</h3><pre>'+esc(s.con)+'</pre></div>';
+    h+='<div class="detail-section"><h3>Code</h3><pre>'+esc(s.code)+'</pre></div>';
+    h+='<div class="detail-section"><h3>Appears in Posts</h3><ul class="connections" id="connList"></ul></div>';
+    el.insertAdjacentHTML('beforeend',h);
+    const cl=document.getElementById('connList');
+    rp.forEach(p=>{const li=document.createElement('li');li.textContent=p.n+' ('+p.dt+')';li.addEventListener('click',()=>navP(p.id));cl.appendChild(li)});
+  } else {
+    const p=node.d,rs=S.filter(s=>p.st.includes(s.id));
+    let h='';
+    h+='<div class="detail-section"><h2>'+esc(p.n)+'</h2><p class="desc-dim">'+esc(p.dt)+' \xb7 series #'+p.w+'</p><div style="margin-top:6px">'+rs.map(s=>'<span class="tag tag-'+s.c+'">'+esc(s.n)+'</span>').join('')+'</div><p class="desc" style="margin-top:8px">'+esc(p.ins)+'</p></div>';
+    h+='<div class="detail-section"><h3>Key Code</h3><pre>'+esc(p.code)+'</pre></div>';
+    h+='<div class="detail-section"><h3>Algebraic Structures</h3><ul class="connections" id="connList"></ul></div>';
+    h+='<div class="detail-section"><h3>Directory</h3><p class="desc-dim"><span class="inline-code">post/'+esc(p.dir)+'/</span></p></div>';
+    el.insertAdjacentHTML('beforeend',h);
+    const cl=document.getElementById('connList');
+    rs.forEach(s=>{const li=document.createElement('li');li.textContent=s.n;const sp=document.createElement('span');sp.className='conn-label';sp.textContent=' '+s.s;li.appendChild(sp);li.addEventListener('click',()=>navS(s.id));cl.appendChild(li)});
+  }
+}
+
+function navP(id){setView('posts');setTimeout(()=>{const n=nodes.find(x=>x.id===id);if(n){sel=n;draw();detail(n)}},100)}
+function navS(id){setView('structures');setTimeout(()=>{const n=nodes.find(x=>x.id===id);if(n){sel=n;draw();detail(n)}},100)}
+
+function setView(v){
+  view=v;sel=null;
+  document.querySelectorAll('.view-tab').forEach(t=>t.classList.toggle('active',t.dataset.view===v));
+  const el=document.getElementById('detailContent');el.textContent='';
+  const es=document.createElement('div');es.className='empty-state';
+  const eh=document.createElement('h2');eh.textContent='Click a node to explore';es.appendChild(eh);
+  const ep=document.createElement('p');ep.className='desc-dim';ep.textContent='Navigate the algebraic structures and blog posts.';es.appendChild(ep);
+  el.appendChild(es);
+  build();resize();layout();draw();legend();
+}
+
+function legend(){
+  const el=document.getElementById('legend');el.textContent='';
+  const items=view==='posts'?[['#0ea5e9','Blog post']]:
+    [['#22c55e','Monoid family'],['#f59e0b','Ring family'],['#a855f7','Lattice family'],['#ec4899','Morphisms']];
+  items.forEach(([c,t])=>{const d=document.createElement('div');d.className='legend-item';const dot=document.createElement('div');dot.className='legend-dot';dot.style.background=c;d.appendChild(dot);const sp=document.createElement('span');sp.textContent=t;d.appendChild(sp);el.appendChild(d)});
+  const hint=document.createElement('div');hint.className='legend-item';hint.style.fontSize='0.65rem';hint.textContent=view==='posts'?'Lines = shared structures':'Arrows = refinement';el.appendChild(hint);
+}
+
+// Init tabs
+const tabs=document.getElementById('viewTabs');
+['structures','posts','algorithms'].forEach(v=>{const t=document.createElement('div');t.className='view-tab'+(v==='structures'?' active':'');t.dataset.view=v;t.textContent=v==='structures'?'Algebraic Structures':v==='posts'?'Posts':'Structure \u2192 Algorithm';t.addEventListener('click',()=>setView(v));tabs.appendChild(t)});
+document.getElementById('searchInput').addEventListener('input',function(){search=this.value.toLowerCase();nodes.forEach(n=>{const d=n.d,t=[d.n,d.s||'',d.ins||'',d.d||''].join(' ').toLowerCase();n.vis=!search||t.includes(search)});draw()});
+
+resize();build();layout();draw();legend();
+</script>
+</body>
+</html>
