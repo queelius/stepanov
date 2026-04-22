@@ -12,7 +12,7 @@ categories:
   - Computer Science
   - Mathematics
 series: ["stepanov"]
-series_weight: 9
+series_weight: 10
 math: true
 description: "Reverse-mode automatic differentiation powers modern machine learning. Understanding how it works demystifies PyTorch, JAX, and TensorFlow—it's just the chain rule applied systematically."
 ---

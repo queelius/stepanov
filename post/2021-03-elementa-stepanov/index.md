@@ -14,7 +14,7 @@ categories:
 - Mathematics
 series:
 - stepanov
-series_weight: 6
+series_weight: 7
 math: true
 description: elementa is a pedagogical linear algebra library where every design decision prioritizes clarity over cleverness—code
   that reads like a textbook that happens to compile.

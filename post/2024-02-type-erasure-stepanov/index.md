@@ -11,7 +11,7 @@ tags:
 categories:
   - Computer Science
 series: ["stepanov"]
-series_weight: 11
+series_weight: 12
 math: true
 description: "Sean Parent's type erasure technique provides value-semantic polymorphism without inheritance. Combined with Stepanov's algebraic thinking, we can type-erase entire algebraic structures."
 ---

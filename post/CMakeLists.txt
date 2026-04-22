@@ -30,6 +30,14 @@ target_include_directories(test_primality PRIVATE 2019-09-miller-rabin-stepanov)
 add_test(NAME test_primality COMMAND test_primality)
 
 # =============================================================================
+# Intervals: Disjoint Intervals as a Boolean Algebra
+# =============================================================================
+add_executable(test_intervals 2019-12-intervals-stepanov/test_intervals.cpp)
+target_link_libraries(test_intervals GTest::gtest_main)
+target_include_directories(test_intervals PRIVATE 2019-12-intervals-stepanov)
+add_test(NAME test_intervals COMMAND test_intervals)
+
+# =============================================================================
 # Rational: Exact Arithmetic
 # =============================================================================
 add_executable(test_rational 2020-02-rational-stepanov/test_rational.cpp)
@@ -112,3 +120,43 @@ add_executable(test_integrate 2023-08-integration-stepanov/test_integrate.cpp)
 target_link_libraries(test_integrate GTest::gtest_main)
 target_include_directories(test_integrate PRIVATE 2023-08-integration-stepanov 2021-09-dual-stepanov)
 add_test(NAME test_integrate COMMAND test_integrate)
+
+# =============================================================================
+# Accumulator: Online Statistics as Monoids
+# =============================================================================
+add_executable(test_accumulator 2026-03-accumulator-stepanov/test_accumulator.cpp)
+target_link_libraries(test_accumulator GTest::gtest_main)
+target_include_directories(test_accumulator PRIVATE 2026-03-accumulator-stepanov)
+add_test(NAME test_accumulator COMMAND test_accumulator)
+
+# =============================================================================
+# Semirings: One Algorithm, Six Graph Problems
+# =============================================================================
+add_executable(test_semiring 2026-03-semiring-stepanov/test_semiring.cpp)
+target_link_libraries(test_semiring GTest::gtest_main)
+target_include_directories(test_semiring PRIVATE 2026-03-semiring-stepanov)
+add_test(NAME test_semiring COMMAND test_semiring)
+
+# =============================================================================
+# Lattices: Fixed Points and Iteration
+# =============================================================================
+add_executable(test_lattice 2026-03-lattice-stepanov/test_lattice.cpp)
+target_link_libraries(test_lattice GTest::gtest_main)
+target_include_directories(test_lattice PRIVATE 2026-03-lattice-stepanov)
+add_test(NAME test_lattice COMMAND test_lattice)
+
+# =============================================================================
+# Homomorphisms: The Maps Between Structures
+# =============================================================================
+add_executable(test_homomorphism 2026-03-homomorphism-stepanov/test_homomorphism.cpp)
+target_link_libraries(test_homomorphism GTest::gtest_main)
+target_include_directories(test_homomorphism PRIVATE 2026-03-homomorphism-stepanov)
+add_test(NAME test_homomorphism COMMAND test_homomorphism)
+
+# =============================================================================
+# Free Algebras: Why Lists and Polynomials Are Universal
+# =============================================================================
+add_executable(test_free_algebra 2026-03-free-algebra-stepanov/test_free_algebra.cpp)
+target_link_libraries(test_free_algebra GTest::gtest_main)
+target_include_directories(test_free_algebra PRIVATE 2026-03-free-algebra-stepanov)
+add_test(NAME test_free_algebra COMMAND test_free_algebra)

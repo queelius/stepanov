@@ -14,7 +14,7 @@ categories:
 - Mathematics
 series:
 - stepanov
-series_weight: 13
+series_weight: 14
 math: true
 description: 'Many structures come in pairs: forward/reverse AD, push/pull iteration, encode/decode. Recognizing duality lets
   you transfer theorems and insights between domains.'

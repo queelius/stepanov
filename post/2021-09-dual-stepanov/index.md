@@ -13,12 +13,11 @@ categories:
 - Mathematics
 series:
 - stepanov
-series_weight: 7
+series_weight: 8
 math: true
 description: Dual numbers extend our number system with an infinitesimal epsilon where epsilon^2 = 0. Evaluating f(x + epsilon)
   yields f(x) + epsilon * f'(x)—the derivative emerges automatically from the algebra.
 linked_project:
-- dual
 - stepanov
 ---
 *Forward-mode automatic differentiation via dual numbers for C++20.*

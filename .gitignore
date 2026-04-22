@@ -134,3 +134,8 @@ temp/
 # OS specific
 Thumbs.db
 .directory
+# Claude Code local state
+.claude/
+
+# Development copy of explorer (canonical is in docs/)
+/stepanov-explorer.html

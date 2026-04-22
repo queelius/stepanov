@@ -14,7 +14,7 @@ categories:
 - Mathematics
 series:
 - stepanov
-series_weight: 10
+series_weight: 11
 math: true
 description: 'Numerical integration demonstrates both classical numerical analysis and Stepanov''s philosophy: by identifying
   the minimal algebraic requirements, our quadrature routines work with dual numbers for automatic differentiation under the

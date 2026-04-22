@@ -12,7 +12,7 @@ categories:
   - Computer Science
   - Mathematics
 series: ["stepanov"]
-series_weight: 8
+series_weight: 9
 math: true
 description: "The art of numerical differentiation lies in choosing step size h wisely—small enough that the approximation is good, but not so small that floating-point errors dominate."
 ---

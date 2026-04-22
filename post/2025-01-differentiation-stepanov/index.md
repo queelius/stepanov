@@ -14,7 +14,7 @@ categories:
 - Mathematics
 series:
 - stepanov
-series_weight: 12
+series_weight: 13
 math: true
 description: Three approaches to computing derivatives—forward-mode AD, reverse-mode AD, and finite differences—each with
   different trade-offs. Understanding when to use each is essential for numerical computing and machine learning.

@@ -13,7 +13,7 @@ categories:
 - Mathematics
 series:
 - stepanov
-series_weight: 4
+series_weight: 5
 math: true
 description: Rational numbers give us exact arithmetic where floating-point fails. The implementation reveals deep connections
   to GCD, the Stern-Brocot tree, and the algebraic structure of fields.

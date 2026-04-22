@@ -13,7 +13,7 @@ categories:
 - Mathematics
 series:
 - stepanov
-series_weight: 5
+series_weight: 6
 math: true
 description: The same GCD algorithm works for integers and polynomials because both are Euclidean domains. This profound insight
   shows how algebraic structure determines algorithmic applicability.
