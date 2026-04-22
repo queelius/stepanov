@@ -13,4 +13,4 @@ Three views into the series:
 
 Drag nodes to rearrange. Click to see details. Use the search box to filter.
 
-<iframe src="stepanov-explorer.html" style="width:100%;height:75vh;border:1px solid #333;border-radius:8px;" loading="lazy"></iframe>
+<iframe src="../stepanov-explorer.html" style="width:100%;height:75vh;border:1px solid #333;border-radius:8px;" loading="lazy"></iframe>
