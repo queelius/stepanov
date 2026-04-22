@@ -71,6 +71,7 @@ nav:
           - "Peasant: Exponentiation": post/2019-03-peasant-stepanov/index.md
           - "Modular: Finite Rings": post/2019-06-modular-stepanov/index.md
           - "Miller-Rabin: Primality": post/2019-09-miller-rabin-stepanov/index.md
+          - "Intervals: Boolean Algebra in 1D": post/2019-12-intervals-stepanov/index.md
           - "Rational: Exact Arithmetic": post/2020-02-rational-stepanov/index.md
           - "Polynomials: Euclidean Domains": post/2020-07-polynomials-stepanov/index.md
       - Applied Mathematics:
