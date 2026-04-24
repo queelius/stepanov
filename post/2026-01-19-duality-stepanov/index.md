@@ -193,7 +193,7 @@ The duality theme runs through several posts:
 
 **Fold and unfold in power()**: The [peasant](/post/2019-03-peasant-stepanov/) algorithm is a fold: it consumes the exponent bit-by-bit, accumulating the result. The dual unfold would generate the sequence of squares from a base---which is exactly what repeated squaring does implicitly.
 
-**Encode/decode**: While not explicitly covered, the type-erasure post implies this pattern: erasing a type is encoding its operations; invoking through the erased interface is decoding back to behavior.
+**Encode/decode**: While not explicitly covered, the type-erasure post implies this pattern: erasing a type is encoding its operations; invoking through the erased interface is decoding back to behavior. The codec posts develop the encode/decode duality structurally: see [Bits Follow Types](/post/2026-05-codecs-functors-stepanov/) and [When Lists Become Bits](/post/2026-05-prefix-free-stepanov/) for how the duality decomposes along the algebraic structure of types.
 
 ## The Deeper Pattern
 

@@ -144,6 +144,8 @@ These structures are not design choices. They are forced by the axioms. The free
 
 Algorithms arise from algebraic structure. Free algebras explain which structures are the starting points.
 
+The free-monoid construction also extends to bit space via prefix-free codes; see [When Lists Become Bits](/post/2026-05-prefix-free-stepanov/).
+
 ## Further Reading
 
 - Mac Lane, *Categories for the Working Mathematician*, ch. IV (free algebras)

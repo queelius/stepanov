@@ -453,6 +453,7 @@ dual (forward-mode autodiff via algebra)
 - *Linear algebra*: Start with [elementa](/post/2021-03-elementa-stepanov/), then [autodiff](/post/2023-01-autodiff-stepanov/)
 - *Generic programming patterns*: Start with [peasant](/post/2019-03-peasant-stepanov/), then [type-erasure](/post/2024-02-type-erasure-stepanov/)
 - *Algebraic structures*: Start with [rational](/post/2020-02-rational-stepanov/), then [polynomials](/post/2020-07-polynomials-stepanov/)
+- *Codecs as functors*: The algebraic structure of a type determines its codec, the same way it determines its algorithms. See [Bits Follow Types](/post/2026-05-codecs-functors-stepanov/) and [When Lists Become Bits](/post/2026-05-prefix-free-stepanov/).
 
 ---
 
