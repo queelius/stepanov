@@ -59,3 +59,28 @@ TEST(CodecsFunctorsTest, ConceptsAreSatisfied) {
     static_assert(BitSink<BitWriter>);
     static_assert(BitSource<BitReader>);
 }
+
+namespace {
+
+// Round-trip helper used by codec tests in this file.
+template<typename Codec, typename T>
+T round_trip(const T& v) {
+    std::array<std::uint8_t, 64> buf{};
+    std::span<std::uint8_t> buf_span(buf);
+    BitWriter w(buf_span);
+    Codec::encode(v, w);
+    w.align();
+    std::span<const std::uint8_t> read_span(buf.data(), w.bytes_written());
+    BitReader r(read_span);
+    return Codec::decode(r);
+}
+
+}  // namespace
+
+TEST(CodecsFunctorsTest, GammaRoundTrip) {
+    for (std::uint64_t n : {std::uint64_t{1}, std::uint64_t{2}, std::uint64_t{3},
+                            std::uint64_t{100}, std::uint64_t{1024},
+                            std::uint64_t{1} << 30}) {
+        EXPECT_EQ(round_trip<Gamma>(n), n) << "n = " << n;
+    }
+}

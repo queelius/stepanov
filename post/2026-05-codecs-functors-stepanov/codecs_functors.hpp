@@ -96,4 +96,35 @@ concept Codec = requires {
 // for the pedagogical examples in this post; the prose discusses the
 // fuller requirements.
 
+// ---- Leaf codec: Elias gamma -----------------------------------------------
+// Encodes positive integers (>= 1).
+// Codeword for n: (bit_width(n) - 1) zero bits, then a one bit,
+// then the bits of n minus the leading 1, MSB first.
+// Length: 2 * floor(log2(n)) + 1 bits.
+
+struct Gamma {
+    using value_type = std::uint64_t;
+
+    template<BitSink S>
+    static void encode(value_type n, S& sink) {
+        std::size_t bits = std::bit_width(n);
+        for (std::size_t i = 0; i < bits - 1; ++i) sink.write(false);
+        sink.write(true);
+        for (std::size_t i = bits - 1; i > 0; --i) {
+            sink.write(((n >> (i - 1)) & 1) != 0);
+        }
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        std::size_t bits = 1;
+        while (!source.read()) ++bits;
+        value_type result = 1;
+        for (std::size_t i = 1; i < bits; ++i) {
+            result = (result << 1) | (source.read() ? value_type{1} : value_type{0});
+        }
+        return result;
+    }
+};
+
 }  // namespace codecs_functors
