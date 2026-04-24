@@ -66,6 +66,9 @@ public:
         return bit;
     }
 
+    // True while at least one BYTE remains in the buffer. Callers query this
+    // only at item boundaries, never mid-item, so padding bits from the
+    // writer's align() are never exposed as data.
     [[nodiscard]] bool peek() const noexcept {
         return byte_idx_ < buf_.size();
     }

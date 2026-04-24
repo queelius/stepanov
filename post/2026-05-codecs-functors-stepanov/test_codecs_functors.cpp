@@ -46,6 +46,7 @@ TEST(CodecsFunctorsTest, BitReaderReadsBackBitWriterOutput) {
                                     false, true, false, true};
     for (bool b : pattern) w.write(b);
     w.align();
+    EXPECT_EQ(w.bytes_written(), 2u);
 
     std::span<const std::uint8_t> read_span(buf.data(), w.bytes_written());
     BitReader r(read_span);
