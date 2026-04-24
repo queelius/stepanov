@@ -263,4 +263,90 @@ struct Vec {
     }
 };
 
+// ---- Auxiliary leaf codec: Bool ---------------------------------------------
+// Wire format: 1 bit (0 = false, 1 = true).
+
+struct Bool {
+    using value_type = bool;
+
+    template<BitSink S>
+    static void encode(value_type v, S& sink) { sink.write(v); }
+
+    template<BitSource S>
+    static value_type decode(S& source) { return source.read(); }
+};
+
+// ---- Auxiliary adapter: Signed ----------------------------------------------
+// Wraps an unsigned codec via zigzag encoding so signed integers can use it:
+//   0 -> 0, -1 -> 1, 1 -> 2, -2 -> 3, 2 -> 4, ...
+// Then biased by +1 because the underlying codec (e.g. Gamma) requires positives.
+
+template<typename C>
+struct Signed {
+    using value_type = std::int64_t;
+
+    template<BitSink S>
+    static void encode(value_type v, S& sink) {
+        std::uint64_t z;
+        if (v < 0) {
+            z = (static_cast<std::uint64_t>(-(v + 1)) << 1) | 1u;
+        } else {
+            z = static_cast<std::uint64_t>(v) << 1;
+        }
+        C::encode(z + 1, sink);
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        std::uint64_t z = C::decode(source) - 1;
+        if (z & 1u) {
+            return -static_cast<std::int64_t>(z >> 1) - 1;
+        }
+        return static_cast<std::int64_t>(z >> 1);
+    }
+};
+
+// ---- Auxiliary leaf codec: Byte ---------------------------------------------
+// Wire format: 8 bits, LSB first (matches BitWriter's byte packing).
+
+struct Byte {
+    using value_type = std::uint8_t;
+
+    template<BitSink S>
+    static void encode(value_type v, S& sink) {
+        for (int i = 0; i < 8; ++i) sink.write(((v >> i) & 1) != 0);
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        std::uint8_t v = 0;
+        for (int i = 0; i < 8; ++i) {
+            if (source.read()) v |= static_cast<std::uint8_t>(1 << i);
+        }
+        return v;
+    }
+};
+
+// ---- Auxiliary codec: String -- conceptually Vec<Byte> over std::string ----
+// Wire format: gamma-coded (size + 1) followed by 8 bits per byte.
+
+struct String {
+    using value_type = std::string;
+
+    template<BitSink S>
+    static void encode(const value_type& s, S& sink) {
+        Gamma::encode(s.size() + 1, sink);
+        for (char c : s) Byte::encode(static_cast<std::uint8_t>(c), sink);
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        std::size_t n = static_cast<std::size_t>(Gamma::decode(source) - 1);
+        value_type s;
+        s.reserve(n);
+        for (std::size_t i = 0; i < n; ++i) s.push_back(static_cast<char>(Byte::decode(source)));
+        return s;
+    }
+};
+
 }  // namespace codecs_functors

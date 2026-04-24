@@ -166,3 +166,29 @@ TEST(CodecsFunctorsTest, VecManyElements) {
     auto out = round_trip<Codec>(v);
     EXPECT_EQ(out, v);
 }
+
+TEST(CodecsFunctorsTest, BoolRoundTrip) {
+    EXPECT_EQ(round_trip<Bool>(true), true);
+    EXPECT_EQ(round_trip<Bool>(false), false);
+}
+
+TEST(CodecsFunctorsTest, SignedRoundTrip) {
+    using Codec = Signed<Gamma>;
+    for (std::int64_t n : {std::int64_t{0}, std::int64_t{1}, std::int64_t{-1},
+                           std::int64_t{42}, std::int64_t{-42},
+                           std::int64_t{1} << 30, -(std::int64_t{1} << 30)}) {
+        EXPECT_EQ(round_trip<Codec>(n), n) << "n = " << n;
+    }
+}
+
+TEST(CodecsFunctorsTest, ByteRoundTrip) {
+    for (int b = 0; b < 256; ++b) {
+        EXPECT_EQ(round_trip<Byte>(static_cast<std::uint8_t>(b)), static_cast<std::uint8_t>(b));
+    }
+}
+
+TEST(CodecsFunctorsTest, StringRoundTrip) {
+    EXPECT_EQ(round_trip<String>(std::string{}), std::string{});
+    EXPECT_EQ(round_trip<String>(std::string{"hello"}), std::string{"hello"});
+    EXPECT_EQ(round_trip<String>(std::string{"with\0null", 9}), std::string("with\0null", 9));
+}
