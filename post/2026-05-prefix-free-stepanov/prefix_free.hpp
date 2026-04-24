@@ -6,6 +6,7 @@
 #pragma once
 
 #include <bit>
+#include <cassert>
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
@@ -84,6 +85,83 @@ template<typename T>
 concept BitSource = requires(T& s) {
     { s.read() } -> std::same_as<bool>;
     { s.peek() } -> std::convertible_to<bool>;
+};
+
+// ---- Leaf codec: Unary ------------------------------------------------------
+// Encodes positive integers (>= 1).
+// Codeword for n: (n - 1) zero bits, then a one bit. Length: n bits.
+
+struct Unary {
+    using value_type = std::uint64_t;
+
+    template<BitSink S>
+    static void encode(value_type n, S& sink) {
+        assert(n >= 1 && "Unary is undefined for n = 0");
+        for (value_type i = 1; i < n; ++i) sink.write(false);
+        sink.write(true);
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        value_type n = 1;
+        while (!source.read()) ++n;
+        return n;
+    }
+};
+
+// ---- Leaf codec: Elias gamma -- (re-stated from post 1) ---------------------
+
+struct Gamma {
+    using value_type = std::uint64_t;
+
+    template<BitSink S>
+    static void encode(value_type n, S& sink) {
+        assert(n >= 1 && "Gamma is undefined for n = 0");
+        std::size_t bits = std::bit_width(n);
+        for (std::size_t i = 0; i < bits - 1; ++i) sink.write(false);
+        sink.write(true);
+        for (std::size_t i = bits - 1; i > 0; --i) {
+            sink.write(((n >> (i - 1)) & 1) != 0);
+        }
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        std::size_t bits = 1;
+        while (!source.read()) ++bits;
+        value_type result = 1;
+        for (std::size_t i = 1; i < bits; ++i) {
+            result = (result << 1) | (source.read() ? value_type{1} : value_type{0});
+        }
+        return result;
+    }
+};
+
+// ---- Combinator: Vec -- the free monoid lift (re-stated from post 1) -------
+// Wire format: gamma-coded (size + 1) followed by C's encoding of each element.
+
+template<typename C>
+struct Vec {
+    using value_type = std::vector<typename C::value_type>;
+
+    template<BitSink S>
+    static void encode(const value_type& v, S& sink) {
+        Gamma::encode(v.size() + 1, sink);
+        for (const auto& x : v) {
+            C::encode(x, sink);
+        }
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        std::size_t n = static_cast<std::size_t>(Gamma::decode(source) - 1);
+        value_type result;
+        result.reserve(n);
+        for (std::size_t i = 0; i < n; ++i) {
+            result.push_back(C::decode(source));
+        }
+        return result;
+    }
 };
 
 }  // namespace prefix_free
