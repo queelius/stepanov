@@ -130,6 +130,7 @@ struct Gamma {
 };
 
 // ---- Combinator: Opt -- coproduct with unit (1 + T) -------------------------
+// Wire format: 1 tag bit (1 = present, 0 = absent), then C's encoding if present.
 
 template<typename C>
 struct Opt {
