@@ -192,3 +192,71 @@ TEST(CodecsFunctorsTest, StringRoundTrip) {
     EXPECT_EQ(round_trip<String>(std::string{"hello"}), std::string{"hello"});
     EXPECT_EQ(round_trip<String>(std::string{"with\0null", 9}), std::string("with\0null", 9));
 }
+
+// ---- Composed worked example: a config record --------------------------------
+
+namespace config_example {
+
+using Value = std::variant<std::int64_t, std::string, bool>;
+
+struct Entry {
+    std::string key;
+    std::optional<Value> value;
+    bool operator==(const Entry&) const = default;
+};
+
+using Config = std::vector<Entry>;
+
+using ValueCodec  = Either3<Signed<Gamma>, String, Bool>;
+using EntryCodec  = Pair<String, Opt<ValueCodec>>;
+using ConfigCodec = Vec<EntryCodec>;
+
+// Adapter: EntryCodec encodes std::pair<std::string, std::optional<Value>>;
+// the Entry struct above carries the same fields under named members.
+inline std::pair<std::string, std::optional<Value>> to_pair(const Entry& e) {
+    return {e.key, e.value};
+}
+inline Entry to_entry(std::pair<std::string, std::optional<Value>> p) {
+    return Entry{std::move(p.first), std::move(p.second)};
+}
+
+}  // namespace config_example
+
+TEST(CodecsFunctorsTest, ConfigParserRoundTrip) {
+    using namespace config_example;
+
+    Config c = {
+        Entry{"port", Value{std::in_place_index<0>, std::int64_t{8080}}},
+        Entry{"name", Value{std::in_place_index<1>, std::string{"alpha"}}},
+        Entry{"verbose", std::nullopt},
+        Entry{"debug", Value{std::in_place_index<2>, true}},
+    };
+
+    // Convert to the form ConfigCodec expects (vector of pairs).
+    std::vector<std::pair<std::string, std::optional<Value>>> as_pairs;
+    as_pairs.reserve(c.size());
+    for (const auto& e : c) as_pairs.push_back(to_pair(e));
+
+    std::array<std::uint8_t, 1024> buf{};
+    std::span<std::uint8_t> buf_span(buf);
+    BitWriter w(buf_span);
+    ConfigCodec::encode(as_pairs, w);
+    w.align();
+
+    std::span<const std::uint8_t> read_span(buf.data(), w.bytes_written());
+    BitReader r(read_span);
+    auto decoded_pairs = ConfigCodec::decode(r);
+
+    Config decoded;
+    decoded.reserve(decoded_pairs.size());
+    for (auto& p : decoded_pairs) decoded.push_back(to_entry(std::move(p)));
+
+    ASSERT_EQ(decoded.size(), c.size());
+    for (std::size_t i = 0; i < c.size(); ++i) {
+        EXPECT_EQ(decoded[i].key, c[i].key) << "i=" << i;
+        EXPECT_EQ(decoded[i].value.has_value(), c[i].value.has_value()) << "i=" << i;
+        if (c[i].value) {
+            EXPECT_EQ(decoded[i].value->index(), c[i].value->index()) << "i=" << i;
+        }
+    }
+}
