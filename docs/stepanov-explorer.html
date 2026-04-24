@@ -164,7 +164,11 @@ const P = [
   {id:'homomorphism',n:'The Maps Between Structures',dt:'2026-03',w:17,dir:'2026-03-homomorphism-stepanov',st:['s-hom','s-mon'],
    ins:'f(a+b) = f(a)+f(b). fold is the universal homomorphism from the free monoid.',code:'// length(s1+s2) = length(s1)+length(s2)\n// log(a*b) = log(a)+log(b)'},
   {id:'free-algebra',n:'Why Lists and Polynomials Are Universal',dt:'2026-03',w:18,dir:'2026-03-free-algebra-stepanov',st:['s-free','s-mon','s-hom'],
-   ins:'Lists = free monoid. fold = unique homomorphism. Polynomials = free ring.',code:'// extend(f, [a,b,c])\n//   = op(op(f(a),f(b)),f(c))\n// This IS fold.'}
+   ins:'Lists = free monoid. fold = unique homomorphism. Polynomials = free ring.',code:'// extend(f, [a,b,c])\n//   = op(op(f(a),f(b)),f(c))\n// This IS fold.'},
+  {id:'codecs-functors',n:'Bits Follow Types',dt:'2026-04-23',w:20,dir:'2026-05-codecs-functors-stepanov',st:['s-free','s-mon','s-hom'],
+   ins:'Codecs as functors: the algebraic structure of a type determines how to encode it. Sum types encode as tagged unions; product types as concatenated fields. The codec is a natural transformation between type algebra and bit algebra.',code:'template<typename T, BitSink S>\nvoid encode(const T& val, S& sink);\n// Functor: encode(f(a)) = lift(f)(encode(a))'},
+  {id:'prefix-free',n:'When Lists Become Bits',dt:'2026-04-23',w:21,dir:'2026-05-prefix-free-stepanov',st:['s-free','s-mon'],
+   ins:'Prefix-freeness is the free-monoid universal property in bit space. A prefix-free code embeds the free monoid on an alphabet into the free monoid on {0,1}, preserving the unique-parse property. Kraft inequality as a conservation law.',code:'// Prefix-free: no codeword is a prefix of another\n// Unique parse: split(encode(xs)) = xs\n// Kraft: sum 2^(-len(c)) <= 1'}
 ];
 
 const SE = [
