@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
+#include <algorithm>
 #include <array>
 #include <cstdint>
+#include <map>
 #include <span>
 #include <vector>
 #include "prefix_free.hpp"
@@ -67,4 +69,36 @@ TEST(PrefixFreeTest, VecEmptyRoundTrip) {
     using Codec = Vec<Gamma>;
     Codec::value_type v;
     EXPECT_EQ(round_trip<Codec>(v), v);
+}
+
+TEST(PrefixFreeTest, EncodeStringConcatenatesCodewords) {
+    std::map<char, std::string> code{
+        {'A', "0"},
+        {'B', "01"},
+        {'C', "10"},
+        {'D', "010"},
+    };
+    EXPECT_EQ(encode_string(code, "DA"), "0100");
+    EXPECT_EQ(encode_string(code, "AC"), "010");
+    EXPECT_EQ(encode_string(code, "BA"), "010");
+    EXPECT_EQ(encode_string(code, "D"), "010");
+}
+
+TEST(PrefixFreeTest, EnumerateParsesReturnsAllValidDecodings) {
+    std::map<char, std::string> code{
+        {'A', "0"},
+        {'B', "01"},
+        {'C', "10"},
+        {'D', "010"},
+    };
+    auto parses = enumerate_parses(code, "010");
+    std::vector<std::string> as_strings;
+    for (const auto& p : parses) {
+        as_strings.emplace_back(p.begin(), p.end());
+    }
+    std::sort(as_strings.begin(), as_strings.end());
+    ASSERT_EQ(as_strings.size(), 3u);
+    EXPECT_EQ(as_strings[0], "AC");
+    EXPECT_EQ(as_strings[1], "BA");
+    EXPECT_EQ(as_strings[2], "D");
 }

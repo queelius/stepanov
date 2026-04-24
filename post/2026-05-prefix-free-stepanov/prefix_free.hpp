@@ -164,4 +164,56 @@ struct Vec {
     }
 };
 
+// ---- Helpers for the ambiguity demonstration --------------------------------
+// These are NOT part of the codec abstraction. They support the demonstration
+// in section D of the post: showing that a non-prefix-free code admits
+// multiple parses for the same bit string.
+
+inline std::string encode_string(const std::map<char, std::string>& code,
+                                 std::string_view symbols) {
+    std::string out;
+    for (char c : symbols) {
+        auto it = code.find(c);
+        if (it == code.end()) return {};  // unknown symbol
+        out += it->second;
+    }
+    return out;
+}
+
+namespace detail {
+
+inline void enumerate_parses_recursive(
+    const std::map<char, std::string>& code,
+    std::string_view bits,
+    std::size_t pos,
+    std::vector<char>& current,
+    std::vector<std::vector<char>>& results)
+{
+    if (pos == bits.size()) {
+        results.push_back(current);
+        return;
+    }
+    for (const auto& [sym, codeword] : code) {
+        if (pos + codeword.size() <= bits.size() &&
+            bits.compare(pos, codeword.size(), codeword) == 0) {
+            current.push_back(sym);
+            enumerate_parses_recursive(code, bits, pos + codeword.size(),
+                                       current, results);
+            current.pop_back();
+        }
+    }
+}
+
+}  // namespace detail
+
+inline std::vector<std::vector<char>> enumerate_parses(
+    const std::map<char, std::string>& code,
+    std::string_view bits)
+{
+    std::vector<std::vector<char>> results;
+    std::vector<char> current;
+    detail::enumerate_parses_recursive(code, bits, 0, current, results);
+    return results;
+}
+
 }  // namespace prefix_free
