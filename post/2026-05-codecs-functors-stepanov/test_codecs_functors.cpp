@@ -127,3 +127,20 @@ TEST(CodecsFunctorsTest, Either3RoundTripAllBranches) {
         if (branch == 2) EXPECT_EQ(std::get<2>(out), 3u);
     }
 }
+
+TEST(CodecsFunctorsTest, PairRoundTrip) {
+    using Codec = Pair<Gamma, Gamma>;
+    Codec::value_type v{std::uint64_t{17}, std::uint64_t{42}};
+    auto out = round_trip<Codec>(v);
+    EXPECT_EQ(out.first, 17u);
+    EXPECT_EQ(out.second, 42u);
+}
+
+TEST(CodecsFunctorsTest, PairOfDifferentCodecsRoundTrip) {
+    using Codec = Pair<Gamma, Opt<Gamma>>;
+    Codec::value_type v{std::uint64_t{5}, std::optional<std::uint64_t>{std::uint64_t{99}}};
+    auto out = round_trip<Codec>(v);
+    EXPECT_EQ(out.first, 5u);
+    ASSERT_TRUE(out.second.has_value());
+    EXPECT_EQ(*out.second, 99u);
+}

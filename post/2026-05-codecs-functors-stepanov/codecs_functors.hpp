@@ -213,4 +213,26 @@ struct Either3 {
     }
 };
 
+// ---- Combinator: Pair -- binary product (A x B) ----------------------------
+// Wire format: A's encoding immediately followed by B's encoding. Recovery
+// works because A is prefix-free; the boundary is implicit in A's structure.
+
+template<typename A, typename B>
+struct Pair {
+    using value_type = std::pair<typename A::value_type, typename B::value_type>;
+
+    template<BitSink S>
+    static void encode(const value_type& v, S& sink) {
+        A::encode(v.first, sink);
+        B::encode(v.second, sink);
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        auto a = A::decode(source);
+        auto b = B::decode(source);
+        return value_type{std::move(a), std::move(b)};
+    }
+};
+
 }  // namespace codecs_functors
