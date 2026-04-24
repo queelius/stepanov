@@ -65,7 +65,7 @@ namespace {
 // Round-trip helper used by codec tests in this file.
 template<typename Codec, typename T>
 T round_trip(const T& v) {
-    std::array<std::uint8_t, 64> buf{};
+    std::array<std::uint8_t, 1024> buf{};
     std::span<std::uint8_t> buf_span(buf);
     BitWriter w(buf_span);
     Codec::encode(v, w);

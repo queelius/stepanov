@@ -6,6 +6,7 @@
 #pragma once
 
 #include <bit>
+#include <cassert>
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
@@ -107,6 +108,7 @@ struct Gamma {
 
     template<BitSink S>
     static void encode(value_type n, S& sink) {
+        assert(n >= 1 && "Gamma is undefined for n = 0");
         std::size_t bits = std::bit_width(n);
         for (std::size_t i = 0; i < bits - 1; ++i) sink.write(false);
         sink.write(true);
