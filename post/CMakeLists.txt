@@ -168,3 +168,11 @@ add_executable(test_codecs_functors 2026-05-codecs-functors-stepanov/test_codecs
 target_link_libraries(test_codecs_functors GTest::gtest_main)
 target_include_directories(test_codecs_functors PRIVATE 2026-05-codecs-functors-stepanov)
 add_test(NAME test_codecs_functors COMMAND test_codecs_functors)
+
+# =============================================================================
+# Prefix-Free Codes: When Lists Become Bits
+# =============================================================================
+add_executable(test_prefix_free 2026-05-prefix-free-stepanov/test_prefix_free.cpp)
+target_link_libraries(test_prefix_free GTest::gtest_main)
+target_include_directories(test_prefix_free PRIVATE 2026-05-prefix-free-stepanov)
+add_test(NAME test_prefix_free COMMAND test_prefix_free)
