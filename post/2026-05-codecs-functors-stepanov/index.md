@@ -319,7 +319,7 @@ struct Vec {
 
 The `+1` bias in `encode` handles the mismatch between Gamma (which requires inputs \(\geq 1\)) and vector sizes (which can be 0). The decoded length subtracts 1 to recover the original size.
 
-Type algebra: `vector<T>` is `List(T)`, the free monoid on `T`. The [free-algebra post](/post/2026-03-free-algebra-stepanov/) showed that `fold` is the unique monoid homomorphism from lists to any monoid. `Vec<C>` is the lift of that construction to bit space: it extends a per-element encoding `C` to the entire list by applying `C` to each element in sequence.
+Type algebra: `vector<T>` is `List(T)`, the free monoid on `T`. The [free-algebra post](/post/2026-03-free-algebra-stepanov/) showed that `fold` is the unique monoid homomorphism from lists to any monoid: that uniqueness is the universal property of the free monoid. `Vec<C>` is the lift of that universal property to bit space: it extends a per-element encoding `C` to the entire list by applying `C` to each element in sequence.
 
 That lift always exists (it is just fold). The deeper question is whether it is invertible: can the decoder recover the list from the bit string? The answer depends on prefix-freeness, and the analysis belongs in [When Lists Become Bits](/post/2026-05-prefix-free-stepanov/). The short version: `Vec<C>` works when `C` is prefix-free, and Gamma is prefix-free.
 
@@ -338,7 +338,7 @@ This table is not a coincidence. Each combinator takes codecs as inputs and retu
 
 This is the bridge thesis: **the algebraic structure of a type determines its codec, the same way it determines its algorithms.** Stepanov's original claim covered algorithms. These two posts extend it to encodings.
 
-Each combinator is functorial in a precise sense. `Vec`, for instance, maps a morphism between codec targets (a function `f: TA -> TB` liftable to `f*: vector<TA> -> vector<TB>`) to a corresponding transformation between codecs. The formal statement, with natural transformations and the codec category made explicit, is category theory. For the purposes of this post, the table is the claim: structure-in, structure-out.
+Each combinator is functorial in a precise sense. `Vec`, for instance, maps a morphism between codec targets (a function `f: TA -> TB` liftable to `f*: vector<TA> -> vector<TB>`) to a corresponding transformation between codecs. The formal categorical statement is deferred. For the purposes of this post, the table is the claim: structure-in, structure-out.
 
 Contrast this with the alternative: one-off serialization code written directly for each compound type. That code is not wrong, but it is redundant. The structure of the type already tells you how to encode it. If your serialization code reflects that structure, it is derivable and correct by construction. If it does not, you have extra maintenance burden, a second place to update when the type changes.
 
