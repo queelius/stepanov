@@ -235,4 +235,32 @@ struct Pair {
     }
 };
 
+// ---- Combinator: Vec -- free monoid on T (List<T>) ---------------------------
+// Wire format: gamma-coded (size + 1) followed by C's encoding of each element.
+// The +1 bias is because Gamma requires positive integers and 0 is a valid size.
+
+template<typename C>
+struct Vec {
+    using value_type = std::vector<typename C::value_type>;
+
+    template<BitSink S>
+    static void encode(const value_type& v, S& sink) {
+        Gamma::encode(v.size() + 1, sink);
+        for (const auto& x : v) {
+            C::encode(x, sink);
+        }
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        std::size_t n = static_cast<std::size_t>(Gamma::decode(source) - 1);
+        value_type result;
+        result.reserve(n);
+        for (std::size_t i = 0; i < n; ++i) {
+            result.push_back(C::decode(source));
+        }
+        return result;
+    }
+};
+
 }  // namespace codecs_functors

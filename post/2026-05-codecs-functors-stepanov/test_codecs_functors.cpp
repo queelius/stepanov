@@ -144,3 +144,25 @@ TEST(CodecsFunctorsTest, PairOfDifferentCodecsRoundTrip) {
     ASSERT_TRUE(out.second.has_value());
     EXPECT_EQ(*out.second, 99u);
 }
+
+TEST(CodecsFunctorsTest, VecEmpty) {
+    using Codec = Vec<Gamma>;
+    Codec::value_type v;
+    auto out = round_trip<Codec>(v);
+    EXPECT_TRUE(out.empty());
+}
+
+TEST(CodecsFunctorsTest, VecSingleton) {
+    using Codec = Vec<Gamma>;
+    Codec::value_type v{std::uint64_t{7}};
+    auto out = round_trip<Codec>(v);
+    ASSERT_EQ(out.size(), 1u);
+    EXPECT_EQ(out[0], 7u);
+}
+
+TEST(CodecsFunctorsTest, VecManyElements) {
+    using Codec = Vec<Gamma>;
+    Codec::value_type v{1, 2, 3, 5, 8, 13, 21, 34, 55};
+    auto out = round_trip<Codec>(v);
+    EXPECT_EQ(out, v);
+}
