@@ -84,3 +84,15 @@ TEST(CodecsFunctorsTest, GammaRoundTrip) {
         EXPECT_EQ(round_trip<Gamma>(n), n) << "n = " << n;
     }
 }
+
+TEST(CodecsFunctorsTest, OptRoundTripPresent) {
+    using Codec = Opt<Gamma>;
+    Codec::value_type v = std::uint64_t{42};
+    EXPECT_EQ(round_trip<Codec>(v), v);
+}
+
+TEST(CodecsFunctorsTest, OptRoundTripAbsent) {
+    using Codec = Opt<Gamma>;
+    Codec::value_type v = std::nullopt;
+    EXPECT_EQ(round_trip<Codec>(v), v);
+}

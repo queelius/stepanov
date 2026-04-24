@@ -129,4 +129,29 @@ struct Gamma {
     }
 };
 
+// ---- Combinator: Opt -- coproduct with unit (1 + T) -------------------------
+
+template<typename C>
+struct Opt {
+    using value_type = std::optional<typename C::value_type>;
+
+    template<BitSink S>
+    static void encode(const value_type& v, S& sink) {
+        if (v) {
+            sink.write(true);
+            C::encode(*v, sink);
+        } else {
+            sink.write(false);
+        }
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        if (source.read()) {
+            return C::decode(source);
+        }
+        return std::nullopt;
+    }
+};
+
 }  // namespace codecs_functors
