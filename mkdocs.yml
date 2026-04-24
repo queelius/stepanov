@@ -88,6 +88,8 @@ nav:
       - Algebraic Foundations:
           - "Homomorphisms: Maps Between Structures": post/2026-03-homomorphism-stepanov/index.md
           - "Free Algebras: Universal Structures": post/2026-03-free-algebra-stepanov/index.md
+          - "Bits Follow Types: Codecs as Functors": post/2026-05-codecs-functors-stepanov/index.md
+          - "When Lists Become Bits: Prefix-Free Codes": post/2026-05-prefix-free-stepanov/index.md
       - Reflections:
           - "Differentiation: Three Ways": post/2025-01-differentiation-stepanov/index.md
           - "Synthesis: Seeing Structure": post/2026-01-18-synthesis-stepanov/index.md
