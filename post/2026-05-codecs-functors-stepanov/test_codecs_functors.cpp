@@ -122,5 +122,8 @@ TEST(CodecsFunctorsTest, Either3RoundTripAllBranches) {
         if (branch == 2) v.template emplace<2>(std::uint64_t{3});
         auto out = round_trip<Codec>(v);
         EXPECT_EQ(out.index(), branch);
+        if (branch == 0) EXPECT_EQ(std::get<0>(out), 1u);
+        if (branch == 1) EXPECT_EQ(std::get<1>(out), 2u);
+        if (branch == 2) EXPECT_EQ(std::get<2>(out), 3u);
     }
 }

@@ -183,8 +183,9 @@ struct Either {
 };
 
 // ---- Combinator: Either3 -- ternary coproduct (A + B + C) -------------------
-// Wire format: 2 tag bits encode the branch index (LSB first):
-//   00 -> A, 01 -> B, 10 -> C. Then the chosen branch.
+// Wire format: 2 tag bits encode the branch index as an integer (LSB written
+// first): A=0, B=1, C=2. Then the chosen branch. The fourth code (3) is
+// unused; a malformed input that produces it is treated as C.
 
 template<typename A, typename B, typename C>
 struct Either3 {
