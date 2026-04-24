@@ -155,4 +155,61 @@ struct Opt {
     }
 };
 
+// ---- Combinator: Either -- binary coproduct (A + B) -------------------------
+// Wire format: 1 tag bit (0 = left/A, 1 = right/B), then the chosen branch.
+
+template<typename A, typename B>
+struct Either {
+    using value_type = std::variant<typename A::value_type, typename B::value_type>;
+
+    template<BitSink S>
+    static void encode(const value_type& v, S& sink) {
+        if (v.index() == 0) {
+            sink.write(false);
+            A::encode(std::get<0>(v), sink);
+        } else {
+            sink.write(true);
+            B::encode(std::get<1>(v), sink);
+        }
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        if (source.read()) {
+            return value_type{std::in_place_index<1>, B::decode(source)};
+        }
+        return value_type{std::in_place_index<0>, A::decode(source)};
+    }
+};
+
+// ---- Combinator: Either3 -- ternary coproduct (A + B + C) -------------------
+// Wire format: 2 tag bits encode the branch index (LSB first):
+//   00 -> A, 01 -> B, 10 -> C. Then the chosen branch.
+
+template<typename A, typename B, typename C>
+struct Either3 {
+    using value_type = std::variant<typename A::value_type,
+                                    typename B::value_type,
+                                    typename C::value_type>;
+
+    template<BitSink S>
+    static void encode(const value_type& v, S& sink) {
+        std::size_t idx = v.index();
+        sink.write((idx & 0x1) != 0);
+        sink.write((idx & 0x2) != 0);
+        if (idx == 0) A::encode(std::get<0>(v), sink);
+        else if (idx == 1) B::encode(std::get<1>(v), sink);
+        else C::encode(std::get<2>(v), sink);
+    }
+
+    template<BitSource S>
+    static value_type decode(S& source) {
+        std::size_t idx = (source.read() ? 1u : 0u);
+        idx |= (source.read() ? 2u : 0u);
+        if (idx == 0) return value_type{std::in_place_index<0>, A::decode(source)};
+        if (idx == 1) return value_type{std::in_place_index<1>, B::decode(source)};
+        return value_type{std::in_place_index<2>, C::decode(source)};
+    }
+};
+
 }  // namespace codecs_functors

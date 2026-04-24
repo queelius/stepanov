@@ -96,3 +96,31 @@ TEST(CodecsFunctorsTest, OptRoundTripAbsent) {
     Codec::value_type v = std::nullopt;
     EXPECT_EQ(round_trip<Codec>(v), v);
 }
+
+TEST(CodecsFunctorsTest, EitherRoundTripLeft) {
+    using Codec = Either<Gamma, Gamma>;
+    Codec::value_type v{std::in_place_index<0>, std::uint64_t{7}};
+    auto out = round_trip<Codec>(v);
+    EXPECT_EQ(out.index(), 0u);
+    EXPECT_EQ(std::get<0>(out), 7u);
+}
+
+TEST(CodecsFunctorsTest, EitherRoundTripRight) {
+    using Codec = Either<Gamma, Gamma>;
+    Codec::value_type v{std::in_place_index<1>, std::uint64_t{13}};
+    auto out = round_trip<Codec>(v);
+    EXPECT_EQ(out.index(), 1u);
+    EXPECT_EQ(std::get<1>(out), 13u);
+}
+
+TEST(CodecsFunctorsTest, Either3RoundTripAllBranches) {
+    using Codec = Either3<Gamma, Gamma, Gamma>;
+    for (std::size_t branch = 0; branch < 3; ++branch) {
+        Codec::value_type v;
+        if (branch == 0) v.template emplace<0>(std::uint64_t{1});
+        if (branch == 1) v.template emplace<1>(std::uint64_t{2});
+        if (branch == 2) v.template emplace<2>(std::uint64_t{3});
+        auto out = round_trip<Codec>(v);
+        EXPECT_EQ(out.index(), branch);
+    }
+}
