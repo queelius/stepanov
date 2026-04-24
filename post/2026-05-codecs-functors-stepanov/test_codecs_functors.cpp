@@ -253,10 +253,6 @@ TEST(CodecsFunctorsTest, ConfigParserRoundTrip) {
 
     ASSERT_EQ(decoded.size(), c.size());
     for (std::size_t i = 0; i < c.size(); ++i) {
-        EXPECT_EQ(decoded[i].key, c[i].key) << "i=" << i;
-        EXPECT_EQ(decoded[i].value.has_value(), c[i].value.has_value()) << "i=" << i;
-        if (c[i].value) {
-            EXPECT_EQ(decoded[i].value->index(), c[i].value->index()) << "i=" << i;
-        }
+        EXPECT_EQ(decoded[i], c[i]) << "i=" << i;
     }
 }
