@@ -160,3 +160,11 @@ add_executable(test_free_algebra 2026-03-free-algebra-stepanov/test_free_algebra
 target_link_libraries(test_free_algebra GTest::gtest_main)
 target_include_directories(test_free_algebra PRIVATE 2026-03-free-algebra-stepanov)
 add_test(NAME test_free_algebra COMMAND test_free_algebra)
+
+# =============================================================================
+# Codecs as Functors: Bits Follow Types
+# =============================================================================
+add_executable(test_codecs_functors 2026-05-codecs-functors-stepanov/test_codecs_functors.cpp)
+target_link_libraries(test_codecs_functors GTest::gtest_main)
+target_include_directories(test_codecs_functors PRIVATE 2026-05-codecs-functors-stepanov)
+add_test(NAME test_codecs_functors COMMAND test_codecs_functors)
