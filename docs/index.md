@@ -104,6 +104,8 @@ After nineteen posts, I can state the principles that recur:
 
 - [The Maps Between Structures](post/2026-03-homomorphism-stepanov/index.md): Homomorphisms, fold as universal map
 - [Why Lists and Polynomials Are Universal](post/2026-03-free-algebra-stepanov/index.md): Free algebras, universal property
+- [Bits Follow Types](post/2026-05-codecs-functors-stepanov/index.md): Codecs as functorial constructions on type algebra
+- [When Lists Become Bits](post/2026-05-prefix-free-stepanov/index.md): Prefix-freeness as the free-monoid universal property in bit space
 
 ### Reflections
 
