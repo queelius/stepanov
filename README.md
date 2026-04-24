@@ -33,6 +33,8 @@ Each post in `post/` is self-contained with:
 | `2025-01-differentiation-stepanov/` | Differentiation techniques compared |
 | `2026-01-18-synthesis-stepanov/` | Synthesis: seeing structure first |
 | `2026-01-19-duality-stepanov/` | Duality: forward/reverse, push/pull, encode/decode |
+| `2026-05-codecs-functors-stepanov/` | Codecs as functors; algebraic types lift to bit representations |
+| `2026-05-prefix-free-stepanov/` | Prefix-freeness as the free-monoid universal property in bit space |
 
 ## Building
 
