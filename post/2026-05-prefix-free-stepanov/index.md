@@ -274,7 +274,7 @@ TEST(PrefixFreeTest, KraftInequalityHoldsForGamma) {
 
 Unary sums to \(1 - 2^{-K}\) for the first \(K\) integers, converging to 1 from below. Gamma sums to exactly 1 in the limit: each "block" of integers sharing the same codeword length contributes \(2^{-(k+1)}\), and \(\sum_{k=0}^{\infty} 2^{-(k+1)} = 1\). Both satisfy \(\leq 1\).
 
-The converse of Kraft's inequality is also true: any sequence of lengths satisfying the inequality is realized by some prefix-free code. This characterizes exactly which length vectors are achievable. The forthcoming Information Theory by Construction series develops the proof and connects it to optimal code design.
+The converse of Kraft's inequality is also true: any sequence of lengths satisfying the inequality is realized by some prefix-free code. This characterizes exactly which length vectors are achievable. [Kraft's Inequality](/post/2020-03-kraft-wire-formats/) and [McMillan's Converse](/post/2020-09-mcmillan-wire-formats/) in the [Algebra over Wire Formats](/series/wire-formats/) series develop the proof and the constructive converse.
 
 ## The Bridge Claim
 
@@ -307,6 +307,6 @@ The [duality post](/post/2026-01-19-duality-stepanov/) noted that encode and dec
 - [The Maps Between Structures](/post/2026-03-homomorphism-stepanov/): the lift is a monoid homomorphism; this post covers what that means and why it matters.
 - [Structure, Duality, and the Shape of Computation](/post/2026-01-19-duality-stepanov/): prefix-freeness is what makes the decode half of the encode-decode duality well-defined.
 
-**Where this leads:** The forthcoming Information Theory by Construction series develops Kraft's inequality proof, the converse (every Kraft-satisfying length vector is realizable by a prefix-free code), and the full universal-codes treatment connecting prefix-freeness to entropy, Huffman coding, and arithmetic coding.
+**Where this leads:** The [Algebra over Wire Formats](/series/wire-formats/) series develops the Kraft inequality proof, the constructive converse (McMillan), and the full universal-codes treatment connecting prefix-freeness to entropy, Huffman coding, and arithmetic coding.
 
 **The production library:** PFC ([github.com/queelius/pfc](https://github.com/queelius/pfc)) provides the production version with a richer codec library, full STL integration, and 31k+ test assertions. See `include/pfc/algebraic.hpp` for the combinators and `include/pfc/codecs.hpp` for the full catalog of universal codes.

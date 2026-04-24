@@ -160,7 +160,7 @@ struct Gamma {
 };
 ```
 
-Gamma is asymptotically optimal under a prior proportional to \(1/n^2\). The full story, including the Kraft inequality, optimal code lengths, and the connection to universal codes, belongs to a forthcoming Information Theory by Construction series. For now: gamma is the code you use when you know values are small integers but not their distribution.
+Gamma is asymptotically optimal under a prior proportional to \(1/n^2\). The full story, including the Kraft inequality, optimal code lengths, and the connection to universal codes, belongs to the [Algebra over Wire Formats](/series/wire-formats/) series. For now: gamma is the code you use when you know values are small integers but not their distribution.
 
 ## Combinator: Opt
 
@@ -255,7 +255,7 @@ struct Either3 {
 };
 ```
 
-The tag for `Either3` uses two bits, encoding the branch index as a 2-bit integer (LSB first). This costs \(\lceil\log_2 N\rceil\) bits for N branches regardless of how often each branch occurs. When branch probabilities differ significantly, this is wasteful: Huffman-coded tags or arithmetic coding over the branch distribution would do better. That improvement belongs in the forthcoming Information Theory by Construction series. The flat tag scheme is correct and simple; optimality can be layered on separately.
+The tag for `Either3` uses two bits, encoding the branch index as a 2-bit integer (LSB first). This costs \(\lceil\log_2 N\rceil\) bits for N branches regardless of how often each branch occurs. When branch probabilities differ significantly, this is wasteful: Huffman-coded tags or arithmetic coding over the branch distribution would do better. That improvement belongs in the [Algebra over Wire Formats](/series/wire-formats/) series. The flat tag scheme is correct and simple; optimality can be layered on separately.
 
 ## Combinator: Pair
 
